@@ -11,9 +11,22 @@ export async function POST(req: Request) {
                 { status: 400 }
             );
         }
-        const token = await LoginUser({ email, password });
+        const user = await LoginUser({ email, password });
 
-        return NextResponse.json(token);
+
+        const res = NextResponse.json({
+            message: "Login correcto",
+            accessToken: user.accessToken,
+            user: user.user
+        });
+
+        res.cookies.set("refreshToken", user.refreshToken, {
+            httpOnly: true,
+            path: "/",
+            maxAge: 60 * 60 * 24 * 7
+        });
+
+        return res;
 
     } catch (error: unknown) {
 

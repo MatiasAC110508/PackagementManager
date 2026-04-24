@@ -1,29 +1,44 @@
-import jwt from "jsonwebtoken";
 
-const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET as string;
-const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET as string;
+import { SignJWT, jwtVerify } from 'jose';
 
-//generar el accesstoken, verificarlo
-//corto 15 min
-export function generateAccessToken(payload: object) {
-    return jwt.sign(payload, ACCESS_SECRET, {
-        expiresIn: "15m"
-    });
+const accessToken = new TextEncoder().encode(process.env.ACCESS_SECRET);
+const refreshToken = new TextEncoder().encode(process.env.REFRESH_SECRET);
+
+interface JWTPayload {
+    id: number;
+    email: string;
+    role: 'ADMIN' | 'USER';
+    [key: string]: any;
 }
 
-//refreshtoken
-export function generateRefreshToken(payload: object) {
-    return jwt.sign(payload, REFRESH_SECRET, {
-        expiresIn: "7d"
-    });
+export async function generateAccessToken(payload: JWTPayload) {
+    return await new SignJWT(payload).setProtectedHeader({ alg: 'HS256' })
+        .setIssuedAt()
+        .setExpirationTime('15m')
+        .sign(accessToken);
 }
 
-//validar accesstoken
-export function validateAccesToken(token: string) {
-    return jwt.verify(token, ACCESS_SECRET);
+export async function generateRefreshToken(payload: JWTPayload) {
+    return await new SignJWT(payload).setProtectedHeader({ alg: 'HS256' })
+        .setIssuedAt()
+        .setExpirationTime('7d')
+        .sign(refreshToken);
 }
 
-//validar refreshtoken
-export function validateRefresjToken(token: string) {
-    return jwt.verify(token, REFRESH_SECRET);
+export async function validateAccessToken(token: string) {
+    try {
+        const { payload } = await jwtVerify(token, accessToken);
+        return payload as unknown as JWTPayload;
+    } catch (error) {
+        return null;
+    }
+}
+
+export async function validateRefreshToken(token: string) {
+    try {
+        const { payload } = await jwtVerify(token, refreshToken);
+        return payload as unknown as JWTPayload;
+    } catch (error) {
+        return null;
+    }
 }

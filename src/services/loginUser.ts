@@ -3,6 +3,7 @@ import prisma from "@/lib/db";
 import { compareHashed } from "@/lib/hash";
 import { generateAccessToken, generateRefreshToken } from "@/lib/jwt";
 
+
 export async function LoginUser(user: User) {
 
     const validateUser = await prisma.user.findUnique({
@@ -16,18 +17,21 @@ export async function LoginUser(user: User) {
     const validateHash = await compareHashed(user.password, validateUser.password);
     if (!validateHash) {
         throw new Error("Contraseña incorrecta");
-
     }
 
     const payload = {
-        email: user.email
-    }
-
-    const accessToken = generateAccessToken(payload);
-    const refreshToken = generateRefreshToken(payload);
+        id: validateUser.id,
+        email: validateUser.email,
+        role: validateUser.role
+    };
 
     return {
-        accessToken,
-        refreshToken
-    }
+        accessToken: await generateAccessToken(payload),
+        refreshToken: await generateRefreshToken(payload),
+        user: {
+            id: validateUser.id,
+            email: validateUser.email,
+            role: validateUser.role
+        }
+    };
 }

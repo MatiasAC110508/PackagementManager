@@ -7,11 +7,30 @@ datasource db {
   provider = "postgresql"
 }
 
+enum Role {
+  ADMIN
+  USER
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
   password  String
+  role Role @default(USER)
+  agent Agent[]
   createdAt DateTime @default(now())
+}
+
+model Agent {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  type String
+  config Json
+  isPublic Boolean @default(false)
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
 }
 
 
