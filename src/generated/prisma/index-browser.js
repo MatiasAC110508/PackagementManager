@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.7.0
- * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
+ * Prisma Client JS version: 7.8.0
+ * Query Engine version: 3c6e192761c0362d496ed980de936e2f3cebcd3a
  */
 Prisma.prismaVersion = {
-  client: "7.7.0",
-  engine: "75cbdc1eb7150937890ad5465d861175c6624711"
+  client: "7.8.0",
+  engine: "3c6e192761c0362d496ed980de936e2f3cebcd3a"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -139,6 +139,38 @@ exports.Prisma.AgentScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ShipmentScalarFieldEnum = {
+  id: 'id',
+  reference: 'reference',
+  origin: 'origin',
+  destination: 'destination',
+  company: 'company',
+  client: 'client',
+  status: 'status',
+  delivered: 'delivered',
+  ownerId: 'ownerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ShipmentEventScalarFieldEnum = {
+  id: 'id',
+  shipmentId: 'shipmentId',
+  type: 'type',
+  title: 'title',
+  detail: 'detail',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ClientNotificationScalarFieldEnum = {
+  id: 'id',
+  shipmentId: 'shipmentId',
+  client: 'client',
+  status: 'status',
+  message: 'message',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -163,9 +195,24 @@ exports.Role = exports.$Enums.Role = {
   USER: 'USER'
 };
 
+exports.ShipmentStatus = exports.$Enums.ShipmentStatus = {
+  PENDING: 'PENDING',
+  IN_TRANSIT: 'IN_TRANSIT',
+  DELIVERED: 'DELIVERED'
+};
+
+exports.ShipmentEventType = exports.$Enums.ShipmentEventType = {
+  CREATED: 'CREATED',
+  UPDATED: 'UPDATED',
+  STATUS_CHANGED: 'STATUS_CHANGED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
-  Agent: 'Agent'
+  Agent: 'Agent',
+  Shipment: 'Shipment',
+  ShipmentEvent: 'ShipmentEvent',
+  ClientNotification: 'ClientNotification'
 };
 
 /**

@@ -1,26 +1,227 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f5f1e8;
+  --background-strong: #ebe3d6;
+  --surface: rgba(255, 251, 245, 0.82);
+  --surface-strong: rgba(255, 255, 255, 0.92);
+  --foreground: #181613;
+  --muted: #666158;
+  --line: rgba(24, 22, 19, 0.11);
+  --accent: #d47230;
+  --accent-strong: #ae5620;
+  --accent-soft: rgba(212, 114, 48, 0.14);
+  --shadow: 0 24px 72px rgba(56, 43, 26, 0.08);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Bahnschrift", "Avenir Next Condensed", "Trebuchet MS", sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", "Consolas", monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(212, 114, 48, 0.12), transparent 28%),
+    radial-gradient(circle at 92% 14%, rgba(24, 22, 19, 0.05), transparent 18%),
+    linear-gradient(180deg, #f7f3eb 0%, #efe7da 100%);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+a,
+button,
+input,
+textarea {
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+::selection {
+  background: rgba(212, 114, 48, 0.18);
+  color: var(--foreground);
+}
+
+.app-shell {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background-image:
+    linear-gradient(rgba(24, 22, 19, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24, 22, 19, 0.045) 1px, transparent 1px);
+  background-size: 88px 88px;
+  background-position: center top;
+}
+
+.container {
+  width: 100%;
+  max-width: 1320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.surface-panel {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.surface-panel-strong {
+  border: 1px solid rgba(24, 22, 19, 0.08);
+  background: var(--surface-strong);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(20px);
+}
+
+.section-label {
+  color: var(--accent-strong);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.text-muted {
+  color: var(--muted);
+}
+
+/* Output widgets use a custom scrollbar so data-heavy panels still feel polished. */
+.scroll-widget {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212, 114, 48, 0.85) rgba(24, 22, 19, 0.12);
+  overscroll-behavior: contain;
+}
+
+.scroll-widget::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scroll-widget::-webkit-scrollbar-track {
+  margin: 12px 0;
+  border-radius: 999px;
+  background: rgba(24, 22, 19, 0.1);
+}
+
+.scroll-widget::-webkit-scrollbar-thumb {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(228, 147, 90, 0.96), rgba(180, 87, 30, 0.92))
+    padding-box;
+}
+
+.scroll-widget::-webkit-scrollbar-thumb:hover {
+  background:
+    linear-gradient(180deg, rgba(240, 167, 114, 0.98), rgba(212, 114, 48, 0.95))
+    padding-box;
+}
+
+.scroll-widget::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.output-shell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(24, 22, 19, 0.1);
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.output-shell::before,
+.output-shell::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  height: 22px;
+  pointer-events: none;
+}
+
+.output-shell::before {
+  top: 0;
+  background: linear-gradient(180deg, rgba(244, 238, 228, 0.92), transparent);
+}
+
+.output-shell::after {
+  bottom: 0;
+  background: linear-gradient(0deg, rgba(244, 238, 228, 0.92), transparent);
+}
+
+.output-body {
+  display: block;
+  flex: 1 1 auto;
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 1.25rem 1.1rem 1.25rem 1.25rem;
+}
+
+.animate-fade-up {
+  animation: fade-up 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-fade-up-delay {
+  animation: fade-up 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-float {
+  animation: float 7s ease-in-out infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
 }

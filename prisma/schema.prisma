@@ -12,25 +12,84 @@ enum Role {
   USER
 }
 
+enum ShipmentStatus {
+  PENDING
+  IN_TRANSIT
+  DELIVERED
+}
+
+enum ShipmentEventType {
+  CREATED
+  UPDATED
+  STATUS_CHANGED
+}
+
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
   password  String
-  role Role @default(USER)
-  agent Agent[]
-  createdAt DateTime @default(now())
+  role      Role       @default(USER)
+  // Agents belong to the original auth playground side of the project.
+  agent     Agent[]
+  // Shipments are owned by authenticated users and drive the dashboard.
+  shipments Shipment[]
+  createdAt DateTime   @default(now())
 }
 
 model Agent {
   id          Int      @id @default(autoincrement())
   name        String
   description String
-  type String
-  config Json
-  isPublic Boolean @default(false)
+  type        String
+  config      Json
+  isPublic    Boolean  @default(false)
   userId      Int
-  user        User     @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
 }
 
+model Shipment {
+  id            String               @id @default(uuid())
+  reference     String               @unique
+  origin        String
+  destination   String
+  company       String
+  client        String
+  status        ShipmentStatus       @default(PENDING)
+  delivered     Boolean              @default(false)
+  // ownerId links the dashboard record back to the authenticated user.
+  ownerId       Int
+  owner         User                 @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  // These relations persist the "live tracking" and client notification panels.
+  events        ShipmentEvent[]
+  notifications ClientNotification[]
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
 
+  @@index([ownerId, updatedAt])
+  @@index([status])
+}
+
+model ShipmentEvent {
+  id        String            @id @default(uuid())
+  shipmentId String
+  shipment  Shipment          @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+  type      ShipmentEventType @default(UPDATED)
+  title     String
+  detail    String
+  createdAt DateTime          @default(now())
+
+  @@index([shipmentId, createdAt])
+}
+
+model ClientNotification {
+  id         String         @id @default(uuid())
+  shipmentId String
+  shipment   Shipment       @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+  client     String
+  status     ShipmentStatus
+  message    String
+  createdAt  DateTime       @default(now())
+
+  @@index([shipmentId, createdAt])
+}

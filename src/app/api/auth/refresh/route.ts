@@ -8,13 +8,13 @@ export async function POST() {
         const refreshToken = cookieStore.get("refreshToken")?.value;
 
         if (!refreshToken) {
-            return NextResponse.json({ message: "No hay refresh token" }, { status: 401 });
+            return NextResponse.json({ message: "No refresh token was provided" }, { status: 401 });
         }
 
         const decoded = await validateRefreshToken(refreshToken);
 
         if (!decoded) {
-            return NextResponse.json({ message: "Refresh token inválido o expirado" }, { status: 403 });
+            return NextResponse.json({ message: "Refresh token is invalid or expired" }, { status: 403 });
         }
 
         const newPayload = {
@@ -29,7 +29,9 @@ export async function POST() {
             accessToken: newAccessToken
         });
 
-    } catch (error: any) {
-        return NextResponse.json({ message: "Error al refrescar token", error: error.message }, { status: 500 });
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "Unexpected error";
+
+        return NextResponse.json({ message: "Unable to refresh the token", error: errorMessage }, { status: 500 });
     }
 }

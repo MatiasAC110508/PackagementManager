@@ -1,21 +1,26 @@
 import { LoginUser } from "@/services/loginUser";
 import { NextResponse } from "next/server";
 
-
 export async function POST(req: Request) {
     try {
+        // Route handlers only normalize and validate request data.
+        // The actual credential check lives in the auth service.
         const { email, password } = await req.json();
-        if (!email || !password) {
+        const normalizedEmail = typeof email === "string" ? email.trim().toLowerCase() : "";
+        const normalizedPassword = typeof password === "string" ? password.trim() : "";
+
+        if (!normalizedEmail || !normalizedPassword) {
             return NextResponse.json(
-                { message: "Campos requeridos" },
+                { message: "Email and password are required" },
                 { status: 400 }
             );
         }
-        const user = await LoginUser({ email, password });
+        const user = await LoginUser({ email: normalizedEmail, password: normalizedPassword });
 
-
+        // The access token goes back to the client while the refresh token stays
+        // in an HTTP-only cookie for future token refresh requests.
         const res = NextResponse.json({
-            message: "Login correcto",
+            message: "Sign-in successful",
             accessToken: user.accessToken,
             user: user.user
         });
@@ -30,11 +35,16 @@ export async function POST(req: Request) {
 
     } catch (error: unknown) {
 
-        const message = error instanceof Error ? error.message : "Error inesperado";
+        const message = error instanceof Error ? error.message : "Unexpected error";
+        const statusCode =
+            message === "No account was found for this email" ||
+            message === "The password is incorrect"
+                ? 401
+                : 500;
 
         return NextResponse.json(
             { message },
-            { status: 401 }
+            { status: statusCode }
         );
     }
 }

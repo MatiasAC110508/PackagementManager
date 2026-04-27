@@ -23,6 +23,21 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  * 
  */
 export type Agent = $Result.DefaultSelection<Prisma.$AgentPayload>
+/**
+ * Model Shipment
+ * 
+ */
+export type Shipment = $Result.DefaultSelection<Prisma.$ShipmentPayload>
+/**
+ * Model ShipmentEvent
+ * 
+ */
+export type ShipmentEvent = $Result.DefaultSelection<Prisma.$ShipmentEventPayload>
+/**
+ * Model ClientNotification
+ * 
+ */
+export type ClientNotification = $Result.DefaultSelection<Prisma.$ClientNotificationPayload>
 
 /**
  * Enums
@@ -35,11 +50,37 @@ export namespace $Enums {
 
 export type Role = (typeof Role)[keyof typeof Role]
 
+
+export const ShipmentStatus: {
+  PENDING: 'PENDING',
+  IN_TRANSIT: 'IN_TRANSIT',
+  DELIVERED: 'DELIVERED'
+};
+
+export type ShipmentStatus = (typeof ShipmentStatus)[keyof typeof ShipmentStatus]
+
+
+export const ShipmentEventType: {
+  CREATED: 'CREATED',
+  UPDATED: 'UPDATED',
+  STATUS_CHANGED: 'STATUS_CHANGED'
+};
+
+export type ShipmentEventType = (typeof ShipmentEventType)[keyof typeof ShipmentEventType]
+
 }
 
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
+
+export type ShipmentStatus = $Enums.ShipmentStatus
+
+export const ShipmentStatus: typeof $Enums.ShipmentStatus
+
+export type ShipmentEventType = $Enums.ShipmentEventType
+
+export const ShipmentEventType: typeof $Enums.ShipmentEventType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -154,7 +195,7 @@ export class PrismaClient<
    * 
    * Read more in our [docs](https://www.prisma.io/docs/orm/prisma-client/queries/transactions).
    */
-  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
+  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
   $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<R>
 
@@ -181,6 +222,36 @@ export class PrismaClient<
     * ```
     */
   get agent(): Prisma.AgentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.shipment`: Exposes CRUD operations for the **Shipment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Shipments
+    * const shipments = await prisma.shipment.findMany()
+    * ```
+    */
+  get shipment(): Prisma.ShipmentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.shipmentEvent`: Exposes CRUD operations for the **ShipmentEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ShipmentEvents
+    * const shipmentEvents = await prisma.shipmentEvent.findMany()
+    * ```
+    */
+  get shipmentEvent(): Prisma.ShipmentEventDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.clientNotification`: Exposes CRUD operations for the **ClientNotification** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ClientNotifications
+    * const clientNotifications = await prisma.clientNotification.findMany()
+    * ```
+    */
+  get clientNotification(): Prisma.ClientNotificationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -231,8 +302,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 7.7.0
-   * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
+   * Prisma Client JS version: 7.8.0
+   * Query Engine version: 3c6e192761c0362d496ed980de936e2f3cebcd3a
    */
   export type PrismaVersion = {
     client: string
@@ -616,7 +687,10 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
-    Agent: 'Agent'
+    Agent: 'Agent',
+    Shipment: 'Shipment',
+    ShipmentEvent: 'ShipmentEvent',
+    ClientNotification: 'ClientNotification'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -632,7 +706,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "agent"
+      modelProps: "user" | "agent" | "shipment" | "shipmentEvent" | "clientNotification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -784,6 +858,228 @@ export namespace Prisma {
           }
         }
       }
+      Shipment: {
+        payload: Prisma.$ShipmentPayload<ExtArgs>
+        fields: Prisma.ShipmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShipmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShipmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload>
+          }
+          findFirst: {
+            args: Prisma.ShipmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShipmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload>
+          }
+          findMany: {
+            args: Prisma.ShipmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload>[]
+          }
+          create: {
+            args: Prisma.ShipmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload>
+          }
+          createMany: {
+            args: Prisma.ShipmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShipmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload>[]
+          }
+          delete: {
+            args: Prisma.ShipmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload>
+          }
+          update: {
+            args: Prisma.ShipmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.ShipmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShipmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ShipmentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload>[]
+          }
+          upsert: {
+            args: Prisma.ShipmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentPayload>
+          }
+          aggregate: {
+            args: Prisma.ShipmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShipment>
+          }
+          groupBy: {
+            args: Prisma.ShipmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShipmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShipmentCountArgs<ExtArgs>
+            result: $Utils.Optional<ShipmentCountAggregateOutputType> | number
+          }
+        }
+      }
+      ShipmentEvent: {
+        payload: Prisma.$ShipmentEventPayload<ExtArgs>
+        fields: Prisma.ShipmentEventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShipmentEventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentEventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShipmentEventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentEventPayload>
+          }
+          findFirst: {
+            args: Prisma.ShipmentEventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentEventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShipmentEventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentEventPayload>
+          }
+          findMany: {
+            args: Prisma.ShipmentEventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentEventPayload>[]
+          }
+          create: {
+            args: Prisma.ShipmentEventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentEventPayload>
+          }
+          createMany: {
+            args: Prisma.ShipmentEventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShipmentEventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentEventPayload>[]
+          }
+          delete: {
+            args: Prisma.ShipmentEventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentEventPayload>
+          }
+          update: {
+            args: Prisma.ShipmentEventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentEventPayload>
+          }
+          deleteMany: {
+            args: Prisma.ShipmentEventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShipmentEventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ShipmentEventUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentEventPayload>[]
+          }
+          upsert: {
+            args: Prisma.ShipmentEventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShipmentEventPayload>
+          }
+          aggregate: {
+            args: Prisma.ShipmentEventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShipmentEvent>
+          }
+          groupBy: {
+            args: Prisma.ShipmentEventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShipmentEventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShipmentEventCountArgs<ExtArgs>
+            result: $Utils.Optional<ShipmentEventCountAggregateOutputType> | number
+          }
+        }
+      }
+      ClientNotification: {
+        payload: Prisma.$ClientNotificationPayload<ExtArgs>
+        fields: Prisma.ClientNotificationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ClientNotificationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientNotificationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ClientNotificationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientNotificationPayload>
+          }
+          findFirst: {
+            args: Prisma.ClientNotificationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientNotificationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ClientNotificationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientNotificationPayload>
+          }
+          findMany: {
+            args: Prisma.ClientNotificationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientNotificationPayload>[]
+          }
+          create: {
+            args: Prisma.ClientNotificationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientNotificationPayload>
+          }
+          createMany: {
+            args: Prisma.ClientNotificationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ClientNotificationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientNotificationPayload>[]
+          }
+          delete: {
+            args: Prisma.ClientNotificationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientNotificationPayload>
+          }
+          update: {
+            args: Prisma.ClientNotificationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientNotificationPayload>
+          }
+          deleteMany: {
+            args: Prisma.ClientNotificationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ClientNotificationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ClientNotificationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientNotificationPayload>[]
+          }
+          upsert: {
+            args: Prisma.ClientNotificationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClientNotificationPayload>
+          }
+          aggregate: {
+            args: Prisma.ClientNotificationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateClientNotification>
+          }
+          groupBy: {
+            args: Prisma.ClientNotificationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ClientNotificationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ClientNotificationCountArgs<ExtArgs>
+            result: $Utils.Optional<ClientNotificationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -894,6 +1190,9 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     agent?: AgentOmit
+    shipment?: ShipmentOmit
+    shipmentEvent?: ShipmentEventOmit
+    clientNotification?: ClientNotificationOmit
   }
 
   /* Types for Logging */
@@ -975,10 +1274,12 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     agent: number
+    shipments: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     agent?: boolean | UserCountOutputTypeCountAgentArgs
+    shipments?: boolean | UserCountOutputTypeCountShipmentsArgs
   }
 
   // Custom InputTypes
@@ -997,6 +1298,53 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountAgentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AgentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountShipmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShipmentWhereInput
+  }
+
+
+  /**
+   * Count Type ShipmentCountOutputType
+   */
+
+  export type ShipmentCountOutputType = {
+    events: number
+    notifications: number
+  }
+
+  export type ShipmentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    events?: boolean | ShipmentCountOutputTypeCountEventsArgs
+    notifications?: boolean | ShipmentCountOutputTypeCountNotificationsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ShipmentCountOutputType without action
+   */
+  export type ShipmentCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentCountOutputType
+     */
+    select?: ShipmentCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ShipmentCountOutputType without action
+   */
+  export type ShipmentCountOutputTypeCountEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShipmentEventWhereInput
+  }
+
+  /**
+   * ShipmentCountOutputType without action
+   */
+  export type ShipmentCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClientNotificationWhereInput
   }
 
 
@@ -1203,6 +1551,7 @@ export namespace Prisma {
     role?: boolean
     createdAt?: boolean
     agent?: boolean | User$agentArgs<ExtArgs>
+    shipments?: boolean | User$shipmentsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1233,6 +1582,7 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "role" | "createdAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     agent?: boolean | User$agentArgs<ExtArgs>
+    shipments?: boolean | User$shipmentsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1242,6 +1592,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       agent: Prisma.$AgentPayload<ExtArgs>[]
+      shipments: Prisma.$ShipmentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -1644,6 +1995,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     agent<T extends User$agentArgs<ExtArgs> = {}>(args?: Subset<T, User$agentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AgentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    shipments<T extends User$shipmentsArgs<ExtArgs> = {}>(args?: Subset<T, User$shipmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2092,6 +2444,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AgentScalarFieldEnum | AgentScalarFieldEnum[]
+  }
+
+  /**
+   * User.shipments
+   */
+  export type User$shipmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    where?: ShipmentWhereInput
+    orderBy?: ShipmentOrderByWithRelationInput | ShipmentOrderByWithRelationInput[]
+    cursor?: ShipmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShipmentScalarFieldEnum | ShipmentScalarFieldEnum[]
   }
 
   /**
@@ -3250,6 +3626,3391 @@ export namespace Prisma {
 
 
   /**
+   * Model Shipment
+   */
+
+  export type AggregateShipment = {
+    _count: ShipmentCountAggregateOutputType | null
+    _avg: ShipmentAvgAggregateOutputType | null
+    _sum: ShipmentSumAggregateOutputType | null
+    _min: ShipmentMinAggregateOutputType | null
+    _max: ShipmentMaxAggregateOutputType | null
+  }
+
+  export type ShipmentAvgAggregateOutputType = {
+    ownerId: number | null
+  }
+
+  export type ShipmentSumAggregateOutputType = {
+    ownerId: number | null
+  }
+
+  export type ShipmentMinAggregateOutputType = {
+    id: string | null
+    reference: string | null
+    origin: string | null
+    destination: string | null
+    company: string | null
+    client: string | null
+    status: $Enums.ShipmentStatus | null
+    delivered: boolean | null
+    ownerId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ShipmentMaxAggregateOutputType = {
+    id: string | null
+    reference: string | null
+    origin: string | null
+    destination: string | null
+    company: string | null
+    client: string | null
+    status: $Enums.ShipmentStatus | null
+    delivered: boolean | null
+    ownerId: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ShipmentCountAggregateOutputType = {
+    id: number
+    reference: number
+    origin: number
+    destination: number
+    company: number
+    client: number
+    status: number
+    delivered: number
+    ownerId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ShipmentAvgAggregateInputType = {
+    ownerId?: true
+  }
+
+  export type ShipmentSumAggregateInputType = {
+    ownerId?: true
+  }
+
+  export type ShipmentMinAggregateInputType = {
+    id?: true
+    reference?: true
+    origin?: true
+    destination?: true
+    company?: true
+    client?: true
+    status?: true
+    delivered?: true
+    ownerId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ShipmentMaxAggregateInputType = {
+    id?: true
+    reference?: true
+    origin?: true
+    destination?: true
+    company?: true
+    client?: true
+    status?: true
+    delivered?: true
+    ownerId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ShipmentCountAggregateInputType = {
+    id?: true
+    reference?: true
+    origin?: true
+    destination?: true
+    company?: true
+    client?: true
+    status?: true
+    delivered?: true
+    ownerId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ShipmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Shipment to aggregate.
+     */
+    where?: ShipmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shipments to fetch.
+     */
+    orderBy?: ShipmentOrderByWithRelationInput | ShipmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShipmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shipments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shipments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Shipments
+    **/
+    _count?: true | ShipmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ShipmentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ShipmentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShipmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShipmentMaxAggregateInputType
+  }
+
+  export type GetShipmentAggregateType<T extends ShipmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateShipment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShipment[P]>
+      : GetScalarType<T[P], AggregateShipment[P]>
+  }
+
+
+
+
+  export type ShipmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShipmentWhereInput
+    orderBy?: ShipmentOrderByWithAggregationInput | ShipmentOrderByWithAggregationInput[]
+    by: ShipmentScalarFieldEnum[] | ShipmentScalarFieldEnum
+    having?: ShipmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShipmentCountAggregateInputType | true
+    _avg?: ShipmentAvgAggregateInputType
+    _sum?: ShipmentSumAggregateInputType
+    _min?: ShipmentMinAggregateInputType
+    _max?: ShipmentMaxAggregateInputType
+  }
+
+  export type ShipmentGroupByOutputType = {
+    id: string
+    reference: string
+    origin: string
+    destination: string
+    company: string
+    client: string
+    status: $Enums.ShipmentStatus
+    delivered: boolean
+    ownerId: number
+    createdAt: Date
+    updatedAt: Date
+    _count: ShipmentCountAggregateOutputType | null
+    _avg: ShipmentAvgAggregateOutputType | null
+    _sum: ShipmentSumAggregateOutputType | null
+    _min: ShipmentMinAggregateOutputType | null
+    _max: ShipmentMaxAggregateOutputType | null
+  }
+
+  type GetShipmentGroupByPayload<T extends ShipmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShipmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShipmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShipmentGroupByOutputType[P]>
+            : GetScalarType<T[P], ShipmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShipmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    reference?: boolean
+    origin?: boolean
+    destination?: boolean
+    company?: boolean
+    client?: boolean
+    status?: boolean
+    delivered?: boolean
+    ownerId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+    events?: boolean | Shipment$eventsArgs<ExtArgs>
+    notifications?: boolean | Shipment$notificationsArgs<ExtArgs>
+    _count?: boolean | ShipmentCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shipment"]>
+
+  export type ShipmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    reference?: boolean
+    origin?: boolean
+    destination?: boolean
+    company?: boolean
+    client?: boolean
+    status?: boolean
+    delivered?: boolean
+    ownerId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shipment"]>
+
+  export type ShipmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    reference?: boolean
+    origin?: boolean
+    destination?: boolean
+    company?: boolean
+    client?: boolean
+    status?: boolean
+    delivered?: boolean
+    ownerId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shipment"]>
+
+  export type ShipmentSelectScalar = {
+    id?: boolean
+    reference?: boolean
+    origin?: boolean
+    destination?: boolean
+    company?: boolean
+    client?: boolean
+    status?: boolean
+    delivered?: boolean
+    ownerId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ShipmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "reference" | "origin" | "destination" | "company" | "client" | "status" | "delivered" | "ownerId" | "createdAt" | "updatedAt", ExtArgs["result"]["shipment"]>
+  export type ShipmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+    events?: boolean | Shipment$eventsArgs<ExtArgs>
+    notifications?: boolean | Shipment$notificationsArgs<ExtArgs>
+    _count?: boolean | ShipmentCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ShipmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ShipmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ShipmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Shipment"
+    objects: {
+      owner: Prisma.$UserPayload<ExtArgs>
+      events: Prisma.$ShipmentEventPayload<ExtArgs>[]
+      notifications: Prisma.$ClientNotificationPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      reference: string
+      origin: string
+      destination: string
+      company: string
+      client: string
+      status: $Enums.ShipmentStatus
+      delivered: boolean
+      ownerId: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["shipment"]>
+    composites: {}
+  }
+
+  type ShipmentGetPayload<S extends boolean | null | undefined | ShipmentDefaultArgs> = $Result.GetResult<Prisma.$ShipmentPayload, S>
+
+  type ShipmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ShipmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ShipmentCountAggregateInputType | true
+    }
+
+  export interface ShipmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Shipment'], meta: { name: 'Shipment' } }
+    /**
+     * Find zero or one Shipment that matches the filter.
+     * @param {ShipmentFindUniqueArgs} args - Arguments to find a Shipment
+     * @example
+     * // Get one Shipment
+     * const shipment = await prisma.shipment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShipmentFindUniqueArgs>(args: SelectSubset<T, ShipmentFindUniqueArgs<ExtArgs>>): Prisma__ShipmentClient<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Shipment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ShipmentFindUniqueOrThrowArgs} args - Arguments to find a Shipment
+     * @example
+     * // Get one Shipment
+     * const shipment = await prisma.shipment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShipmentFindUniqueOrThrowArgs>(args: SelectSubset<T, ShipmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShipmentClient<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Shipment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentFindFirstArgs} args - Arguments to find a Shipment
+     * @example
+     * // Get one Shipment
+     * const shipment = await prisma.shipment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShipmentFindFirstArgs>(args?: SelectSubset<T, ShipmentFindFirstArgs<ExtArgs>>): Prisma__ShipmentClient<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Shipment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentFindFirstOrThrowArgs} args - Arguments to find a Shipment
+     * @example
+     * // Get one Shipment
+     * const shipment = await prisma.shipment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShipmentFindFirstOrThrowArgs>(args?: SelectSubset<T, ShipmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShipmentClient<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Shipments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Shipments
+     * const shipments = await prisma.shipment.findMany()
+     * 
+     * // Get first 10 Shipments
+     * const shipments = await prisma.shipment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shipmentWithIdOnly = await prisma.shipment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShipmentFindManyArgs>(args?: SelectSubset<T, ShipmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Shipment.
+     * @param {ShipmentCreateArgs} args - Arguments to create a Shipment.
+     * @example
+     * // Create one Shipment
+     * const Shipment = await prisma.shipment.create({
+     *   data: {
+     *     // ... data to create a Shipment
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShipmentCreateArgs>(args: SelectSubset<T, ShipmentCreateArgs<ExtArgs>>): Prisma__ShipmentClient<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Shipments.
+     * @param {ShipmentCreateManyArgs} args - Arguments to create many Shipments.
+     * @example
+     * // Create many Shipments
+     * const shipment = await prisma.shipment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShipmentCreateManyArgs>(args?: SelectSubset<T, ShipmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Shipments and returns the data saved in the database.
+     * @param {ShipmentCreateManyAndReturnArgs} args - Arguments to create many Shipments.
+     * @example
+     * // Create many Shipments
+     * const shipment = await prisma.shipment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Shipments and only return the `id`
+     * const shipmentWithIdOnly = await prisma.shipment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShipmentCreateManyAndReturnArgs>(args?: SelectSubset<T, ShipmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Shipment.
+     * @param {ShipmentDeleteArgs} args - Arguments to delete one Shipment.
+     * @example
+     * // Delete one Shipment
+     * const Shipment = await prisma.shipment.delete({
+     *   where: {
+     *     // ... filter to delete one Shipment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShipmentDeleteArgs>(args: SelectSubset<T, ShipmentDeleteArgs<ExtArgs>>): Prisma__ShipmentClient<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Shipment.
+     * @param {ShipmentUpdateArgs} args - Arguments to update one Shipment.
+     * @example
+     * // Update one Shipment
+     * const shipment = await prisma.shipment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShipmentUpdateArgs>(args: SelectSubset<T, ShipmentUpdateArgs<ExtArgs>>): Prisma__ShipmentClient<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Shipments.
+     * @param {ShipmentDeleteManyArgs} args - Arguments to filter Shipments to delete.
+     * @example
+     * // Delete a few Shipments
+     * const { count } = await prisma.shipment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShipmentDeleteManyArgs>(args?: SelectSubset<T, ShipmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Shipments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Shipments
+     * const shipment = await prisma.shipment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShipmentUpdateManyArgs>(args: SelectSubset<T, ShipmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Shipments and returns the data updated in the database.
+     * @param {ShipmentUpdateManyAndReturnArgs} args - Arguments to update many Shipments.
+     * @example
+     * // Update many Shipments
+     * const shipment = await prisma.shipment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Shipments and only return the `id`
+     * const shipmentWithIdOnly = await prisma.shipment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ShipmentUpdateManyAndReturnArgs>(args: SelectSubset<T, ShipmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Shipment.
+     * @param {ShipmentUpsertArgs} args - Arguments to update or create a Shipment.
+     * @example
+     * // Update or create a Shipment
+     * const shipment = await prisma.shipment.upsert({
+     *   create: {
+     *     // ... data to create a Shipment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Shipment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShipmentUpsertArgs>(args: SelectSubset<T, ShipmentUpsertArgs<ExtArgs>>): Prisma__ShipmentClient<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Shipments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentCountArgs} args - Arguments to filter Shipments to count.
+     * @example
+     * // Count the number of Shipments
+     * const count = await prisma.shipment.count({
+     *   where: {
+     *     // ... the filter for the Shipments we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShipmentCountArgs>(
+      args?: Subset<T, ShipmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShipmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Shipment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShipmentAggregateArgs>(args: Subset<T, ShipmentAggregateArgs>): Prisma.PrismaPromise<GetShipmentAggregateType<T>>
+
+    /**
+     * Group by Shipment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShipmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShipmentGroupByArgs['orderBy'] }
+        : { orderBy?: ShipmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShipmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShipmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Shipment model
+   */
+  readonly fields: ShipmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Shipment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShipmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    events<T extends Shipment$eventsArgs<ExtArgs> = {}>(args?: Subset<T, Shipment$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShipmentEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notifications<T extends Shipment$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Shipment$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientNotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Shipment model
+   */
+  interface ShipmentFieldRefs {
+    readonly id: FieldRef<"Shipment", 'String'>
+    readonly reference: FieldRef<"Shipment", 'String'>
+    readonly origin: FieldRef<"Shipment", 'String'>
+    readonly destination: FieldRef<"Shipment", 'String'>
+    readonly company: FieldRef<"Shipment", 'String'>
+    readonly client: FieldRef<"Shipment", 'String'>
+    readonly status: FieldRef<"Shipment", 'ShipmentStatus'>
+    readonly delivered: FieldRef<"Shipment", 'Boolean'>
+    readonly ownerId: FieldRef<"Shipment", 'Int'>
+    readonly createdAt: FieldRef<"Shipment", 'DateTime'>
+    readonly updatedAt: FieldRef<"Shipment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Shipment findUnique
+   */
+  export type ShipmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Shipment to fetch.
+     */
+    where: ShipmentWhereUniqueInput
+  }
+
+  /**
+   * Shipment findUniqueOrThrow
+   */
+  export type ShipmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Shipment to fetch.
+     */
+    where: ShipmentWhereUniqueInput
+  }
+
+  /**
+   * Shipment findFirst
+   */
+  export type ShipmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Shipment to fetch.
+     */
+    where?: ShipmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shipments to fetch.
+     */
+    orderBy?: ShipmentOrderByWithRelationInput | ShipmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Shipments.
+     */
+    cursor?: ShipmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shipments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shipments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Shipments.
+     */
+    distinct?: ShipmentScalarFieldEnum | ShipmentScalarFieldEnum[]
+  }
+
+  /**
+   * Shipment findFirstOrThrow
+   */
+  export type ShipmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Shipment to fetch.
+     */
+    where?: ShipmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shipments to fetch.
+     */
+    orderBy?: ShipmentOrderByWithRelationInput | ShipmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Shipments.
+     */
+    cursor?: ShipmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shipments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shipments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Shipments.
+     */
+    distinct?: ShipmentScalarFieldEnum | ShipmentScalarFieldEnum[]
+  }
+
+  /**
+   * Shipment findMany
+   */
+  export type ShipmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Shipments to fetch.
+     */
+    where?: ShipmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shipments to fetch.
+     */
+    orderBy?: ShipmentOrderByWithRelationInput | ShipmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Shipments.
+     */
+    cursor?: ShipmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shipments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shipments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Shipments.
+     */
+    distinct?: ShipmentScalarFieldEnum | ShipmentScalarFieldEnum[]
+  }
+
+  /**
+   * Shipment create
+   */
+  export type ShipmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Shipment.
+     */
+    data: XOR<ShipmentCreateInput, ShipmentUncheckedCreateInput>
+  }
+
+  /**
+   * Shipment createMany
+   */
+  export type ShipmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Shipments.
+     */
+    data: ShipmentCreateManyInput | ShipmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Shipment createManyAndReturn
+   */
+  export type ShipmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * The data used to create many Shipments.
+     */
+    data: ShipmentCreateManyInput | ShipmentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Shipment update
+   */
+  export type ShipmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Shipment.
+     */
+    data: XOR<ShipmentUpdateInput, ShipmentUncheckedUpdateInput>
+    /**
+     * Choose, which Shipment to update.
+     */
+    where: ShipmentWhereUniqueInput
+  }
+
+  /**
+   * Shipment updateMany
+   */
+  export type ShipmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Shipments.
+     */
+    data: XOR<ShipmentUpdateManyMutationInput, ShipmentUncheckedUpdateManyInput>
+    /**
+     * Filter which Shipments to update
+     */
+    where?: ShipmentWhereInput
+    /**
+     * Limit how many Shipments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Shipment updateManyAndReturn
+   */
+  export type ShipmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * The data used to update Shipments.
+     */
+    data: XOR<ShipmentUpdateManyMutationInput, ShipmentUncheckedUpdateManyInput>
+    /**
+     * Filter which Shipments to update
+     */
+    where?: ShipmentWhereInput
+    /**
+     * Limit how many Shipments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Shipment upsert
+   */
+  export type ShipmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Shipment to update in case it exists.
+     */
+    where: ShipmentWhereUniqueInput
+    /**
+     * In case the Shipment found by the `where` argument doesn't exist, create a new Shipment with this data.
+     */
+    create: XOR<ShipmentCreateInput, ShipmentUncheckedCreateInput>
+    /**
+     * In case the Shipment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShipmentUpdateInput, ShipmentUncheckedUpdateInput>
+  }
+
+  /**
+   * Shipment delete
+   */
+  export type ShipmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+    /**
+     * Filter which Shipment to delete.
+     */
+    where: ShipmentWhereUniqueInput
+  }
+
+  /**
+   * Shipment deleteMany
+   */
+  export type ShipmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Shipments to delete
+     */
+    where?: ShipmentWhereInput
+    /**
+     * Limit how many Shipments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Shipment.events
+   */
+  export type Shipment$eventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentEvent
+     */
+    select?: ShipmentEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentEvent
+     */
+    omit?: ShipmentEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentEventInclude<ExtArgs> | null
+    where?: ShipmentEventWhereInput
+    orderBy?: ShipmentEventOrderByWithRelationInput | ShipmentEventOrderByWithRelationInput[]
+    cursor?: ShipmentEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ShipmentEventScalarFieldEnum | ShipmentEventScalarFieldEnum[]
+  }
+
+  /**
+   * Shipment.notifications
+   */
+  export type Shipment$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientNotification
+     */
+    select?: ClientNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClientNotification
+     */
+    omit?: ClientNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientNotificationInclude<ExtArgs> | null
+    where?: ClientNotificationWhereInput
+    orderBy?: ClientNotificationOrderByWithRelationInput | ClientNotificationOrderByWithRelationInput[]
+    cursor?: ClientNotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClientNotificationScalarFieldEnum | ClientNotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Shipment without action
+   */
+  export type ShipmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shipment
+     */
+    select?: ShipmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shipment
+     */
+    omit?: ShipmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ShipmentEvent
+   */
+
+  export type AggregateShipmentEvent = {
+    _count: ShipmentEventCountAggregateOutputType | null
+    _min: ShipmentEventMinAggregateOutputType | null
+    _max: ShipmentEventMaxAggregateOutputType | null
+  }
+
+  export type ShipmentEventMinAggregateOutputType = {
+    id: string | null
+    shipmentId: string | null
+    type: $Enums.ShipmentEventType | null
+    title: string | null
+    detail: string | null
+    createdAt: Date | null
+  }
+
+  export type ShipmentEventMaxAggregateOutputType = {
+    id: string | null
+    shipmentId: string | null
+    type: $Enums.ShipmentEventType | null
+    title: string | null
+    detail: string | null
+    createdAt: Date | null
+  }
+
+  export type ShipmentEventCountAggregateOutputType = {
+    id: number
+    shipmentId: number
+    type: number
+    title: number
+    detail: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ShipmentEventMinAggregateInputType = {
+    id?: true
+    shipmentId?: true
+    type?: true
+    title?: true
+    detail?: true
+    createdAt?: true
+  }
+
+  export type ShipmentEventMaxAggregateInputType = {
+    id?: true
+    shipmentId?: true
+    type?: true
+    title?: true
+    detail?: true
+    createdAt?: true
+  }
+
+  export type ShipmentEventCountAggregateInputType = {
+    id?: true
+    shipmentId?: true
+    type?: true
+    title?: true
+    detail?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ShipmentEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShipmentEvent to aggregate.
+     */
+    where?: ShipmentEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShipmentEvents to fetch.
+     */
+    orderBy?: ShipmentEventOrderByWithRelationInput | ShipmentEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShipmentEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShipmentEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShipmentEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ShipmentEvents
+    **/
+    _count?: true | ShipmentEventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShipmentEventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShipmentEventMaxAggregateInputType
+  }
+
+  export type GetShipmentEventAggregateType<T extends ShipmentEventAggregateArgs> = {
+        [P in keyof T & keyof AggregateShipmentEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShipmentEvent[P]>
+      : GetScalarType<T[P], AggregateShipmentEvent[P]>
+  }
+
+
+
+
+  export type ShipmentEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShipmentEventWhereInput
+    orderBy?: ShipmentEventOrderByWithAggregationInput | ShipmentEventOrderByWithAggregationInput[]
+    by: ShipmentEventScalarFieldEnum[] | ShipmentEventScalarFieldEnum
+    having?: ShipmentEventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShipmentEventCountAggregateInputType | true
+    _min?: ShipmentEventMinAggregateInputType
+    _max?: ShipmentEventMaxAggregateInputType
+  }
+
+  export type ShipmentEventGroupByOutputType = {
+    id: string
+    shipmentId: string
+    type: $Enums.ShipmentEventType
+    title: string
+    detail: string
+    createdAt: Date
+    _count: ShipmentEventCountAggregateOutputType | null
+    _min: ShipmentEventMinAggregateOutputType | null
+    _max: ShipmentEventMaxAggregateOutputType | null
+  }
+
+  type GetShipmentEventGroupByPayload<T extends ShipmentEventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShipmentEventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShipmentEventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShipmentEventGroupByOutputType[P]>
+            : GetScalarType<T[P], ShipmentEventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShipmentEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shipmentId?: boolean
+    type?: boolean
+    title?: boolean
+    detail?: boolean
+    createdAt?: boolean
+    shipment?: boolean | ShipmentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shipmentEvent"]>
+
+  export type ShipmentEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shipmentId?: boolean
+    type?: boolean
+    title?: boolean
+    detail?: boolean
+    createdAt?: boolean
+    shipment?: boolean | ShipmentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shipmentEvent"]>
+
+  export type ShipmentEventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shipmentId?: boolean
+    type?: boolean
+    title?: boolean
+    detail?: boolean
+    createdAt?: boolean
+    shipment?: boolean | ShipmentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shipmentEvent"]>
+
+  export type ShipmentEventSelectScalar = {
+    id?: boolean
+    shipmentId?: boolean
+    type?: boolean
+    title?: boolean
+    detail?: boolean
+    createdAt?: boolean
+  }
+
+  export type ShipmentEventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shipmentId" | "type" | "title" | "detail" | "createdAt", ExtArgs["result"]["shipmentEvent"]>
+  export type ShipmentEventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shipment?: boolean | ShipmentDefaultArgs<ExtArgs>
+  }
+  export type ShipmentEventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shipment?: boolean | ShipmentDefaultArgs<ExtArgs>
+  }
+  export type ShipmentEventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shipment?: boolean | ShipmentDefaultArgs<ExtArgs>
+  }
+
+  export type $ShipmentEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ShipmentEvent"
+    objects: {
+      shipment: Prisma.$ShipmentPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      shipmentId: string
+      type: $Enums.ShipmentEventType
+      title: string
+      detail: string
+      createdAt: Date
+    }, ExtArgs["result"]["shipmentEvent"]>
+    composites: {}
+  }
+
+  type ShipmentEventGetPayload<S extends boolean | null | undefined | ShipmentEventDefaultArgs> = $Result.GetResult<Prisma.$ShipmentEventPayload, S>
+
+  type ShipmentEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ShipmentEventFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ShipmentEventCountAggregateInputType | true
+    }
+
+  export interface ShipmentEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ShipmentEvent'], meta: { name: 'ShipmentEvent' } }
+    /**
+     * Find zero or one ShipmentEvent that matches the filter.
+     * @param {ShipmentEventFindUniqueArgs} args - Arguments to find a ShipmentEvent
+     * @example
+     * // Get one ShipmentEvent
+     * const shipmentEvent = await prisma.shipmentEvent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShipmentEventFindUniqueArgs>(args: SelectSubset<T, ShipmentEventFindUniqueArgs<ExtArgs>>): Prisma__ShipmentEventClient<$Result.GetResult<Prisma.$ShipmentEventPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ShipmentEvent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ShipmentEventFindUniqueOrThrowArgs} args - Arguments to find a ShipmentEvent
+     * @example
+     * // Get one ShipmentEvent
+     * const shipmentEvent = await prisma.shipmentEvent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShipmentEventFindUniqueOrThrowArgs>(args: SelectSubset<T, ShipmentEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShipmentEventClient<$Result.GetResult<Prisma.$ShipmentEventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShipmentEvent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentEventFindFirstArgs} args - Arguments to find a ShipmentEvent
+     * @example
+     * // Get one ShipmentEvent
+     * const shipmentEvent = await prisma.shipmentEvent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShipmentEventFindFirstArgs>(args?: SelectSubset<T, ShipmentEventFindFirstArgs<ExtArgs>>): Prisma__ShipmentEventClient<$Result.GetResult<Prisma.$ShipmentEventPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ShipmentEvent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentEventFindFirstOrThrowArgs} args - Arguments to find a ShipmentEvent
+     * @example
+     * // Get one ShipmentEvent
+     * const shipmentEvent = await prisma.shipmentEvent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShipmentEventFindFirstOrThrowArgs>(args?: SelectSubset<T, ShipmentEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShipmentEventClient<$Result.GetResult<Prisma.$ShipmentEventPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ShipmentEvents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ShipmentEvents
+     * const shipmentEvents = await prisma.shipmentEvent.findMany()
+     * 
+     * // Get first 10 ShipmentEvents
+     * const shipmentEvents = await prisma.shipmentEvent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shipmentEventWithIdOnly = await prisma.shipmentEvent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShipmentEventFindManyArgs>(args?: SelectSubset<T, ShipmentEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShipmentEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ShipmentEvent.
+     * @param {ShipmentEventCreateArgs} args - Arguments to create a ShipmentEvent.
+     * @example
+     * // Create one ShipmentEvent
+     * const ShipmentEvent = await prisma.shipmentEvent.create({
+     *   data: {
+     *     // ... data to create a ShipmentEvent
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShipmentEventCreateArgs>(args: SelectSubset<T, ShipmentEventCreateArgs<ExtArgs>>): Prisma__ShipmentEventClient<$Result.GetResult<Prisma.$ShipmentEventPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ShipmentEvents.
+     * @param {ShipmentEventCreateManyArgs} args - Arguments to create many ShipmentEvents.
+     * @example
+     * // Create many ShipmentEvents
+     * const shipmentEvent = await prisma.shipmentEvent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShipmentEventCreateManyArgs>(args?: SelectSubset<T, ShipmentEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ShipmentEvents and returns the data saved in the database.
+     * @param {ShipmentEventCreateManyAndReturnArgs} args - Arguments to create many ShipmentEvents.
+     * @example
+     * // Create many ShipmentEvents
+     * const shipmentEvent = await prisma.shipmentEvent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ShipmentEvents and only return the `id`
+     * const shipmentEventWithIdOnly = await prisma.shipmentEvent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShipmentEventCreateManyAndReturnArgs>(args?: SelectSubset<T, ShipmentEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShipmentEventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ShipmentEvent.
+     * @param {ShipmentEventDeleteArgs} args - Arguments to delete one ShipmentEvent.
+     * @example
+     * // Delete one ShipmentEvent
+     * const ShipmentEvent = await prisma.shipmentEvent.delete({
+     *   where: {
+     *     // ... filter to delete one ShipmentEvent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShipmentEventDeleteArgs>(args: SelectSubset<T, ShipmentEventDeleteArgs<ExtArgs>>): Prisma__ShipmentEventClient<$Result.GetResult<Prisma.$ShipmentEventPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ShipmentEvent.
+     * @param {ShipmentEventUpdateArgs} args - Arguments to update one ShipmentEvent.
+     * @example
+     * // Update one ShipmentEvent
+     * const shipmentEvent = await prisma.shipmentEvent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShipmentEventUpdateArgs>(args: SelectSubset<T, ShipmentEventUpdateArgs<ExtArgs>>): Prisma__ShipmentEventClient<$Result.GetResult<Prisma.$ShipmentEventPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ShipmentEvents.
+     * @param {ShipmentEventDeleteManyArgs} args - Arguments to filter ShipmentEvents to delete.
+     * @example
+     * // Delete a few ShipmentEvents
+     * const { count } = await prisma.shipmentEvent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShipmentEventDeleteManyArgs>(args?: SelectSubset<T, ShipmentEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShipmentEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ShipmentEvents
+     * const shipmentEvent = await prisma.shipmentEvent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShipmentEventUpdateManyArgs>(args: SelectSubset<T, ShipmentEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ShipmentEvents and returns the data updated in the database.
+     * @param {ShipmentEventUpdateManyAndReturnArgs} args - Arguments to update many ShipmentEvents.
+     * @example
+     * // Update many ShipmentEvents
+     * const shipmentEvent = await prisma.shipmentEvent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ShipmentEvents and only return the `id`
+     * const shipmentEventWithIdOnly = await prisma.shipmentEvent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ShipmentEventUpdateManyAndReturnArgs>(args: SelectSubset<T, ShipmentEventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShipmentEventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ShipmentEvent.
+     * @param {ShipmentEventUpsertArgs} args - Arguments to update or create a ShipmentEvent.
+     * @example
+     * // Update or create a ShipmentEvent
+     * const shipmentEvent = await prisma.shipmentEvent.upsert({
+     *   create: {
+     *     // ... data to create a ShipmentEvent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ShipmentEvent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShipmentEventUpsertArgs>(args: SelectSubset<T, ShipmentEventUpsertArgs<ExtArgs>>): Prisma__ShipmentEventClient<$Result.GetResult<Prisma.$ShipmentEventPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ShipmentEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentEventCountArgs} args - Arguments to filter ShipmentEvents to count.
+     * @example
+     * // Count the number of ShipmentEvents
+     * const count = await prisma.shipmentEvent.count({
+     *   where: {
+     *     // ... the filter for the ShipmentEvents we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShipmentEventCountArgs>(
+      args?: Subset<T, ShipmentEventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShipmentEventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ShipmentEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShipmentEventAggregateArgs>(args: Subset<T, ShipmentEventAggregateArgs>): Prisma.PrismaPromise<GetShipmentEventAggregateType<T>>
+
+    /**
+     * Group by ShipmentEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShipmentEventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShipmentEventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShipmentEventGroupByArgs['orderBy'] }
+        : { orderBy?: ShipmentEventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShipmentEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShipmentEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ShipmentEvent model
+   */
+  readonly fields: ShipmentEventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ShipmentEvent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShipmentEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    shipment<T extends ShipmentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShipmentDefaultArgs<ExtArgs>>): Prisma__ShipmentClient<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ShipmentEvent model
+   */
+  interface ShipmentEventFieldRefs {
+    readonly id: FieldRef<"ShipmentEvent", 'String'>
+    readonly shipmentId: FieldRef<"ShipmentEvent", 'String'>
+    readonly type: FieldRef<"ShipmentEvent", 'ShipmentEventType'>
+    readonly title: FieldRef<"ShipmentEvent", 'String'>
+    readonly detail: FieldRef<"ShipmentEvent", 'String'>
+    readonly createdAt: FieldRef<"ShipmentEvent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ShipmentEvent findUnique
+   */
+  export type ShipmentEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentEvent
+     */
+    select?: ShipmentEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentEvent
+     */
+    omit?: ShipmentEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ShipmentEvent to fetch.
+     */
+    where: ShipmentEventWhereUniqueInput
+  }
+
+  /**
+   * ShipmentEvent findUniqueOrThrow
+   */
+  export type ShipmentEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentEvent
+     */
+    select?: ShipmentEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentEvent
+     */
+    omit?: ShipmentEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ShipmentEvent to fetch.
+     */
+    where: ShipmentEventWhereUniqueInput
+  }
+
+  /**
+   * ShipmentEvent findFirst
+   */
+  export type ShipmentEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentEvent
+     */
+    select?: ShipmentEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentEvent
+     */
+    omit?: ShipmentEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ShipmentEvent to fetch.
+     */
+    where?: ShipmentEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShipmentEvents to fetch.
+     */
+    orderBy?: ShipmentEventOrderByWithRelationInput | ShipmentEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShipmentEvents.
+     */
+    cursor?: ShipmentEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShipmentEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShipmentEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShipmentEvents.
+     */
+    distinct?: ShipmentEventScalarFieldEnum | ShipmentEventScalarFieldEnum[]
+  }
+
+  /**
+   * ShipmentEvent findFirstOrThrow
+   */
+  export type ShipmentEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentEvent
+     */
+    select?: ShipmentEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentEvent
+     */
+    omit?: ShipmentEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ShipmentEvent to fetch.
+     */
+    where?: ShipmentEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShipmentEvents to fetch.
+     */
+    orderBy?: ShipmentEventOrderByWithRelationInput | ShipmentEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ShipmentEvents.
+     */
+    cursor?: ShipmentEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShipmentEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShipmentEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShipmentEvents.
+     */
+    distinct?: ShipmentEventScalarFieldEnum | ShipmentEventScalarFieldEnum[]
+  }
+
+  /**
+   * ShipmentEvent findMany
+   */
+  export type ShipmentEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentEvent
+     */
+    select?: ShipmentEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentEvent
+     */
+    omit?: ShipmentEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentEventInclude<ExtArgs> | null
+    /**
+     * Filter, which ShipmentEvents to fetch.
+     */
+    where?: ShipmentEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ShipmentEvents to fetch.
+     */
+    orderBy?: ShipmentEventOrderByWithRelationInput | ShipmentEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ShipmentEvents.
+     */
+    cursor?: ShipmentEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ShipmentEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ShipmentEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ShipmentEvents.
+     */
+    distinct?: ShipmentEventScalarFieldEnum | ShipmentEventScalarFieldEnum[]
+  }
+
+  /**
+   * ShipmentEvent create
+   */
+  export type ShipmentEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentEvent
+     */
+    select?: ShipmentEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentEvent
+     */
+    omit?: ShipmentEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentEventInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ShipmentEvent.
+     */
+    data: XOR<ShipmentEventCreateInput, ShipmentEventUncheckedCreateInput>
+  }
+
+  /**
+   * ShipmentEvent createMany
+   */
+  export type ShipmentEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ShipmentEvents.
+     */
+    data: ShipmentEventCreateManyInput | ShipmentEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ShipmentEvent createManyAndReturn
+   */
+  export type ShipmentEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentEvent
+     */
+    select?: ShipmentEventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentEvent
+     */
+    omit?: ShipmentEventOmit<ExtArgs> | null
+    /**
+     * The data used to create many ShipmentEvents.
+     */
+    data: ShipmentEventCreateManyInput | ShipmentEventCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentEventIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShipmentEvent update
+   */
+  export type ShipmentEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentEvent
+     */
+    select?: ShipmentEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentEvent
+     */
+    omit?: ShipmentEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentEventInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ShipmentEvent.
+     */
+    data: XOR<ShipmentEventUpdateInput, ShipmentEventUncheckedUpdateInput>
+    /**
+     * Choose, which ShipmentEvent to update.
+     */
+    where: ShipmentEventWhereUniqueInput
+  }
+
+  /**
+   * ShipmentEvent updateMany
+   */
+  export type ShipmentEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ShipmentEvents.
+     */
+    data: XOR<ShipmentEventUpdateManyMutationInput, ShipmentEventUncheckedUpdateManyInput>
+    /**
+     * Filter which ShipmentEvents to update
+     */
+    where?: ShipmentEventWhereInput
+    /**
+     * Limit how many ShipmentEvents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShipmentEvent updateManyAndReturn
+   */
+  export type ShipmentEventUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentEvent
+     */
+    select?: ShipmentEventSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentEvent
+     */
+    omit?: ShipmentEventOmit<ExtArgs> | null
+    /**
+     * The data used to update ShipmentEvents.
+     */
+    data: XOR<ShipmentEventUpdateManyMutationInput, ShipmentEventUncheckedUpdateManyInput>
+    /**
+     * Filter which ShipmentEvents to update
+     */
+    where?: ShipmentEventWhereInput
+    /**
+     * Limit how many ShipmentEvents to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentEventIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ShipmentEvent upsert
+   */
+  export type ShipmentEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentEvent
+     */
+    select?: ShipmentEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentEvent
+     */
+    omit?: ShipmentEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentEventInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ShipmentEvent to update in case it exists.
+     */
+    where: ShipmentEventWhereUniqueInput
+    /**
+     * In case the ShipmentEvent found by the `where` argument doesn't exist, create a new ShipmentEvent with this data.
+     */
+    create: XOR<ShipmentEventCreateInput, ShipmentEventUncheckedCreateInput>
+    /**
+     * In case the ShipmentEvent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShipmentEventUpdateInput, ShipmentEventUncheckedUpdateInput>
+  }
+
+  /**
+   * ShipmentEvent delete
+   */
+  export type ShipmentEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentEvent
+     */
+    select?: ShipmentEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentEvent
+     */
+    omit?: ShipmentEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentEventInclude<ExtArgs> | null
+    /**
+     * Filter which ShipmentEvent to delete.
+     */
+    where: ShipmentEventWhereUniqueInput
+  }
+
+  /**
+   * ShipmentEvent deleteMany
+   */
+  export type ShipmentEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ShipmentEvents to delete
+     */
+    where?: ShipmentEventWhereInput
+    /**
+     * Limit how many ShipmentEvents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ShipmentEvent without action
+   */
+  export type ShipmentEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShipmentEvent
+     */
+    select?: ShipmentEventSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ShipmentEvent
+     */
+    omit?: ShipmentEventOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShipmentEventInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ClientNotification
+   */
+
+  export type AggregateClientNotification = {
+    _count: ClientNotificationCountAggregateOutputType | null
+    _min: ClientNotificationMinAggregateOutputType | null
+    _max: ClientNotificationMaxAggregateOutputType | null
+  }
+
+  export type ClientNotificationMinAggregateOutputType = {
+    id: string | null
+    shipmentId: string | null
+    client: string | null
+    status: $Enums.ShipmentStatus | null
+    message: string | null
+    createdAt: Date | null
+  }
+
+  export type ClientNotificationMaxAggregateOutputType = {
+    id: string | null
+    shipmentId: string | null
+    client: string | null
+    status: $Enums.ShipmentStatus | null
+    message: string | null
+    createdAt: Date | null
+  }
+
+  export type ClientNotificationCountAggregateOutputType = {
+    id: number
+    shipmentId: number
+    client: number
+    status: number
+    message: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ClientNotificationMinAggregateInputType = {
+    id?: true
+    shipmentId?: true
+    client?: true
+    status?: true
+    message?: true
+    createdAt?: true
+  }
+
+  export type ClientNotificationMaxAggregateInputType = {
+    id?: true
+    shipmentId?: true
+    client?: true
+    status?: true
+    message?: true
+    createdAt?: true
+  }
+
+  export type ClientNotificationCountAggregateInputType = {
+    id?: true
+    shipmentId?: true
+    client?: true
+    status?: true
+    message?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ClientNotificationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ClientNotification to aggregate.
+     */
+    where?: ClientNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClientNotifications to fetch.
+     */
+    orderBy?: ClientNotificationOrderByWithRelationInput | ClientNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ClientNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClientNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClientNotifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ClientNotifications
+    **/
+    _count?: true | ClientNotificationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ClientNotificationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ClientNotificationMaxAggregateInputType
+  }
+
+  export type GetClientNotificationAggregateType<T extends ClientNotificationAggregateArgs> = {
+        [P in keyof T & keyof AggregateClientNotification]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateClientNotification[P]>
+      : GetScalarType<T[P], AggregateClientNotification[P]>
+  }
+
+
+
+
+  export type ClientNotificationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClientNotificationWhereInput
+    orderBy?: ClientNotificationOrderByWithAggregationInput | ClientNotificationOrderByWithAggregationInput[]
+    by: ClientNotificationScalarFieldEnum[] | ClientNotificationScalarFieldEnum
+    having?: ClientNotificationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ClientNotificationCountAggregateInputType | true
+    _min?: ClientNotificationMinAggregateInputType
+    _max?: ClientNotificationMaxAggregateInputType
+  }
+
+  export type ClientNotificationGroupByOutputType = {
+    id: string
+    shipmentId: string
+    client: string
+    status: $Enums.ShipmentStatus
+    message: string
+    createdAt: Date
+    _count: ClientNotificationCountAggregateOutputType | null
+    _min: ClientNotificationMinAggregateOutputType | null
+    _max: ClientNotificationMaxAggregateOutputType | null
+  }
+
+  type GetClientNotificationGroupByPayload<T extends ClientNotificationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ClientNotificationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ClientNotificationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ClientNotificationGroupByOutputType[P]>
+            : GetScalarType<T[P], ClientNotificationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ClientNotificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shipmentId?: boolean
+    client?: boolean
+    status?: boolean
+    message?: boolean
+    createdAt?: boolean
+    shipment?: boolean | ShipmentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["clientNotification"]>
+
+  export type ClientNotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shipmentId?: boolean
+    client?: boolean
+    status?: boolean
+    message?: boolean
+    createdAt?: boolean
+    shipment?: boolean | ShipmentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["clientNotification"]>
+
+  export type ClientNotificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    shipmentId?: boolean
+    client?: boolean
+    status?: boolean
+    message?: boolean
+    createdAt?: boolean
+    shipment?: boolean | ShipmentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["clientNotification"]>
+
+  export type ClientNotificationSelectScalar = {
+    id?: boolean
+    shipmentId?: boolean
+    client?: boolean
+    status?: boolean
+    message?: boolean
+    createdAt?: boolean
+  }
+
+  export type ClientNotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shipmentId" | "client" | "status" | "message" | "createdAt", ExtArgs["result"]["clientNotification"]>
+  export type ClientNotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shipment?: boolean | ShipmentDefaultArgs<ExtArgs>
+  }
+  export type ClientNotificationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shipment?: boolean | ShipmentDefaultArgs<ExtArgs>
+  }
+  export type ClientNotificationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    shipment?: boolean | ShipmentDefaultArgs<ExtArgs>
+  }
+
+  export type $ClientNotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ClientNotification"
+    objects: {
+      shipment: Prisma.$ShipmentPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      shipmentId: string
+      client: string
+      status: $Enums.ShipmentStatus
+      message: string
+      createdAt: Date
+    }, ExtArgs["result"]["clientNotification"]>
+    composites: {}
+  }
+
+  type ClientNotificationGetPayload<S extends boolean | null | undefined | ClientNotificationDefaultArgs> = $Result.GetResult<Prisma.$ClientNotificationPayload, S>
+
+  type ClientNotificationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ClientNotificationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ClientNotificationCountAggregateInputType | true
+    }
+
+  export interface ClientNotificationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ClientNotification'], meta: { name: 'ClientNotification' } }
+    /**
+     * Find zero or one ClientNotification that matches the filter.
+     * @param {ClientNotificationFindUniqueArgs} args - Arguments to find a ClientNotification
+     * @example
+     * // Get one ClientNotification
+     * const clientNotification = await prisma.clientNotification.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ClientNotificationFindUniqueArgs>(args: SelectSubset<T, ClientNotificationFindUniqueArgs<ExtArgs>>): Prisma__ClientNotificationClient<$Result.GetResult<Prisma.$ClientNotificationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ClientNotification that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ClientNotificationFindUniqueOrThrowArgs} args - Arguments to find a ClientNotification
+     * @example
+     * // Get one ClientNotification
+     * const clientNotification = await prisma.clientNotification.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ClientNotificationFindUniqueOrThrowArgs>(args: SelectSubset<T, ClientNotificationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ClientNotificationClient<$Result.GetResult<Prisma.$ClientNotificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ClientNotification that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientNotificationFindFirstArgs} args - Arguments to find a ClientNotification
+     * @example
+     * // Get one ClientNotification
+     * const clientNotification = await prisma.clientNotification.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ClientNotificationFindFirstArgs>(args?: SelectSubset<T, ClientNotificationFindFirstArgs<ExtArgs>>): Prisma__ClientNotificationClient<$Result.GetResult<Prisma.$ClientNotificationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ClientNotification that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientNotificationFindFirstOrThrowArgs} args - Arguments to find a ClientNotification
+     * @example
+     * // Get one ClientNotification
+     * const clientNotification = await prisma.clientNotification.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ClientNotificationFindFirstOrThrowArgs>(args?: SelectSubset<T, ClientNotificationFindFirstOrThrowArgs<ExtArgs>>): Prisma__ClientNotificationClient<$Result.GetResult<Prisma.$ClientNotificationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ClientNotifications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientNotificationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ClientNotifications
+     * const clientNotifications = await prisma.clientNotification.findMany()
+     * 
+     * // Get first 10 ClientNotifications
+     * const clientNotifications = await prisma.clientNotification.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const clientNotificationWithIdOnly = await prisma.clientNotification.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ClientNotificationFindManyArgs>(args?: SelectSubset<T, ClientNotificationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientNotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ClientNotification.
+     * @param {ClientNotificationCreateArgs} args - Arguments to create a ClientNotification.
+     * @example
+     * // Create one ClientNotification
+     * const ClientNotification = await prisma.clientNotification.create({
+     *   data: {
+     *     // ... data to create a ClientNotification
+     *   }
+     * })
+     * 
+     */
+    create<T extends ClientNotificationCreateArgs>(args: SelectSubset<T, ClientNotificationCreateArgs<ExtArgs>>): Prisma__ClientNotificationClient<$Result.GetResult<Prisma.$ClientNotificationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ClientNotifications.
+     * @param {ClientNotificationCreateManyArgs} args - Arguments to create many ClientNotifications.
+     * @example
+     * // Create many ClientNotifications
+     * const clientNotification = await prisma.clientNotification.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ClientNotificationCreateManyArgs>(args?: SelectSubset<T, ClientNotificationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ClientNotifications and returns the data saved in the database.
+     * @param {ClientNotificationCreateManyAndReturnArgs} args - Arguments to create many ClientNotifications.
+     * @example
+     * // Create many ClientNotifications
+     * const clientNotification = await prisma.clientNotification.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ClientNotifications and only return the `id`
+     * const clientNotificationWithIdOnly = await prisma.clientNotification.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ClientNotificationCreateManyAndReturnArgs>(args?: SelectSubset<T, ClientNotificationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientNotificationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ClientNotification.
+     * @param {ClientNotificationDeleteArgs} args - Arguments to delete one ClientNotification.
+     * @example
+     * // Delete one ClientNotification
+     * const ClientNotification = await prisma.clientNotification.delete({
+     *   where: {
+     *     // ... filter to delete one ClientNotification
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ClientNotificationDeleteArgs>(args: SelectSubset<T, ClientNotificationDeleteArgs<ExtArgs>>): Prisma__ClientNotificationClient<$Result.GetResult<Prisma.$ClientNotificationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ClientNotification.
+     * @param {ClientNotificationUpdateArgs} args - Arguments to update one ClientNotification.
+     * @example
+     * // Update one ClientNotification
+     * const clientNotification = await prisma.clientNotification.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ClientNotificationUpdateArgs>(args: SelectSubset<T, ClientNotificationUpdateArgs<ExtArgs>>): Prisma__ClientNotificationClient<$Result.GetResult<Prisma.$ClientNotificationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ClientNotifications.
+     * @param {ClientNotificationDeleteManyArgs} args - Arguments to filter ClientNotifications to delete.
+     * @example
+     * // Delete a few ClientNotifications
+     * const { count } = await prisma.clientNotification.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ClientNotificationDeleteManyArgs>(args?: SelectSubset<T, ClientNotificationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ClientNotifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientNotificationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ClientNotifications
+     * const clientNotification = await prisma.clientNotification.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ClientNotificationUpdateManyArgs>(args: SelectSubset<T, ClientNotificationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ClientNotifications and returns the data updated in the database.
+     * @param {ClientNotificationUpdateManyAndReturnArgs} args - Arguments to update many ClientNotifications.
+     * @example
+     * // Update many ClientNotifications
+     * const clientNotification = await prisma.clientNotification.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ClientNotifications and only return the `id`
+     * const clientNotificationWithIdOnly = await prisma.clientNotification.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ClientNotificationUpdateManyAndReturnArgs>(args: SelectSubset<T, ClientNotificationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClientNotificationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ClientNotification.
+     * @param {ClientNotificationUpsertArgs} args - Arguments to update or create a ClientNotification.
+     * @example
+     * // Update or create a ClientNotification
+     * const clientNotification = await prisma.clientNotification.upsert({
+     *   create: {
+     *     // ... data to create a ClientNotification
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ClientNotification we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ClientNotificationUpsertArgs>(args: SelectSubset<T, ClientNotificationUpsertArgs<ExtArgs>>): Prisma__ClientNotificationClient<$Result.GetResult<Prisma.$ClientNotificationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ClientNotifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientNotificationCountArgs} args - Arguments to filter ClientNotifications to count.
+     * @example
+     * // Count the number of ClientNotifications
+     * const count = await prisma.clientNotification.count({
+     *   where: {
+     *     // ... the filter for the ClientNotifications we want to count
+     *   }
+     * })
+    **/
+    count<T extends ClientNotificationCountArgs>(
+      args?: Subset<T, ClientNotificationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ClientNotificationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ClientNotification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientNotificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ClientNotificationAggregateArgs>(args: Subset<T, ClientNotificationAggregateArgs>): Prisma.PrismaPromise<GetClientNotificationAggregateType<T>>
+
+    /**
+     * Group by ClientNotification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClientNotificationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ClientNotificationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ClientNotificationGroupByArgs['orderBy'] }
+        : { orderBy?: ClientNotificationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ClientNotificationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetClientNotificationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ClientNotification model
+   */
+  readonly fields: ClientNotificationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ClientNotification.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ClientNotificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    shipment<T extends ShipmentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShipmentDefaultArgs<ExtArgs>>): Prisma__ShipmentClient<$Result.GetResult<Prisma.$ShipmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ClientNotification model
+   */
+  interface ClientNotificationFieldRefs {
+    readonly id: FieldRef<"ClientNotification", 'String'>
+    readonly shipmentId: FieldRef<"ClientNotification", 'String'>
+    readonly client: FieldRef<"ClientNotification", 'String'>
+    readonly status: FieldRef<"ClientNotification", 'ShipmentStatus'>
+    readonly message: FieldRef<"ClientNotification", 'String'>
+    readonly createdAt: FieldRef<"ClientNotification", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ClientNotification findUnique
+   */
+  export type ClientNotificationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientNotification
+     */
+    select?: ClientNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClientNotification
+     */
+    omit?: ClientNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientNotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientNotification to fetch.
+     */
+    where: ClientNotificationWhereUniqueInput
+  }
+
+  /**
+   * ClientNotification findUniqueOrThrow
+   */
+  export type ClientNotificationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientNotification
+     */
+    select?: ClientNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClientNotification
+     */
+    omit?: ClientNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientNotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientNotification to fetch.
+     */
+    where: ClientNotificationWhereUniqueInput
+  }
+
+  /**
+   * ClientNotification findFirst
+   */
+  export type ClientNotificationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientNotification
+     */
+    select?: ClientNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClientNotification
+     */
+    omit?: ClientNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientNotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientNotification to fetch.
+     */
+    where?: ClientNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClientNotifications to fetch.
+     */
+    orderBy?: ClientNotificationOrderByWithRelationInput | ClientNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ClientNotifications.
+     */
+    cursor?: ClientNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClientNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClientNotifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ClientNotifications.
+     */
+    distinct?: ClientNotificationScalarFieldEnum | ClientNotificationScalarFieldEnum[]
+  }
+
+  /**
+   * ClientNotification findFirstOrThrow
+   */
+  export type ClientNotificationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientNotification
+     */
+    select?: ClientNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClientNotification
+     */
+    omit?: ClientNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientNotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientNotification to fetch.
+     */
+    where?: ClientNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClientNotifications to fetch.
+     */
+    orderBy?: ClientNotificationOrderByWithRelationInput | ClientNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ClientNotifications.
+     */
+    cursor?: ClientNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClientNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClientNotifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ClientNotifications.
+     */
+    distinct?: ClientNotificationScalarFieldEnum | ClientNotificationScalarFieldEnum[]
+  }
+
+  /**
+   * ClientNotification findMany
+   */
+  export type ClientNotificationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientNotification
+     */
+    select?: ClientNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClientNotification
+     */
+    omit?: ClientNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientNotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which ClientNotifications to fetch.
+     */
+    where?: ClientNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClientNotifications to fetch.
+     */
+    orderBy?: ClientNotificationOrderByWithRelationInput | ClientNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ClientNotifications.
+     */
+    cursor?: ClientNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClientNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClientNotifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ClientNotifications.
+     */
+    distinct?: ClientNotificationScalarFieldEnum | ClientNotificationScalarFieldEnum[]
+  }
+
+  /**
+   * ClientNotification create
+   */
+  export type ClientNotificationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientNotification
+     */
+    select?: ClientNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClientNotification
+     */
+    omit?: ClientNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientNotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ClientNotification.
+     */
+    data: XOR<ClientNotificationCreateInput, ClientNotificationUncheckedCreateInput>
+  }
+
+  /**
+   * ClientNotification createMany
+   */
+  export type ClientNotificationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ClientNotifications.
+     */
+    data: ClientNotificationCreateManyInput | ClientNotificationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ClientNotification createManyAndReturn
+   */
+  export type ClientNotificationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientNotification
+     */
+    select?: ClientNotificationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClientNotification
+     */
+    omit?: ClientNotificationOmit<ExtArgs> | null
+    /**
+     * The data used to create many ClientNotifications.
+     */
+    data: ClientNotificationCreateManyInput | ClientNotificationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientNotificationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ClientNotification update
+   */
+  export type ClientNotificationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientNotification
+     */
+    select?: ClientNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClientNotification
+     */
+    omit?: ClientNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientNotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ClientNotification.
+     */
+    data: XOR<ClientNotificationUpdateInput, ClientNotificationUncheckedUpdateInput>
+    /**
+     * Choose, which ClientNotification to update.
+     */
+    where: ClientNotificationWhereUniqueInput
+  }
+
+  /**
+   * ClientNotification updateMany
+   */
+  export type ClientNotificationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ClientNotifications.
+     */
+    data: XOR<ClientNotificationUpdateManyMutationInput, ClientNotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which ClientNotifications to update
+     */
+    where?: ClientNotificationWhereInput
+    /**
+     * Limit how many ClientNotifications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ClientNotification updateManyAndReturn
+   */
+  export type ClientNotificationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientNotification
+     */
+    select?: ClientNotificationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClientNotification
+     */
+    omit?: ClientNotificationOmit<ExtArgs> | null
+    /**
+     * The data used to update ClientNotifications.
+     */
+    data: XOR<ClientNotificationUpdateManyMutationInput, ClientNotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which ClientNotifications to update
+     */
+    where?: ClientNotificationWhereInput
+    /**
+     * Limit how many ClientNotifications to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientNotificationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ClientNotification upsert
+   */
+  export type ClientNotificationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientNotification
+     */
+    select?: ClientNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClientNotification
+     */
+    omit?: ClientNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientNotificationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ClientNotification to update in case it exists.
+     */
+    where: ClientNotificationWhereUniqueInput
+    /**
+     * In case the ClientNotification found by the `where` argument doesn't exist, create a new ClientNotification with this data.
+     */
+    create: XOR<ClientNotificationCreateInput, ClientNotificationUncheckedCreateInput>
+    /**
+     * In case the ClientNotification was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ClientNotificationUpdateInput, ClientNotificationUncheckedUpdateInput>
+  }
+
+  /**
+   * ClientNotification delete
+   */
+  export type ClientNotificationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientNotification
+     */
+    select?: ClientNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClientNotification
+     */
+    omit?: ClientNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientNotificationInclude<ExtArgs> | null
+    /**
+     * Filter which ClientNotification to delete.
+     */
+    where: ClientNotificationWhereUniqueInput
+  }
+
+  /**
+   * ClientNotification deleteMany
+   */
+  export type ClientNotificationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ClientNotifications to delete
+     */
+    where?: ClientNotificationWhereInput
+    /**
+     * Limit how many ClientNotifications to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ClientNotification without action
+   */
+  export type ClientNotificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClientNotification
+     */
+    select?: ClientNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClientNotification
+     */
+    omit?: ClientNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClientNotificationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -3286,6 +7047,47 @@ export namespace Prisma {
   };
 
   export type AgentScalarFieldEnum = (typeof AgentScalarFieldEnum)[keyof typeof AgentScalarFieldEnum]
+
+
+  export const ShipmentScalarFieldEnum: {
+    id: 'id',
+    reference: 'reference',
+    origin: 'origin',
+    destination: 'destination',
+    company: 'company',
+    client: 'client',
+    status: 'status',
+    delivered: 'delivered',
+    ownerId: 'ownerId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ShipmentScalarFieldEnum = (typeof ShipmentScalarFieldEnum)[keyof typeof ShipmentScalarFieldEnum]
+
+
+  export const ShipmentEventScalarFieldEnum: {
+    id: 'id',
+    shipmentId: 'shipmentId',
+    type: 'type',
+    title: 'title',
+    detail: 'detail',
+    createdAt: 'createdAt'
+  };
+
+  export type ShipmentEventScalarFieldEnum = (typeof ShipmentEventScalarFieldEnum)[keyof typeof ShipmentEventScalarFieldEnum]
+
+
+  export const ClientNotificationScalarFieldEnum: {
+    id: 'id',
+    shipmentId: 'shipmentId',
+    client: 'client',
+    status: 'status',
+    message: 'message',
+    createdAt: 'createdAt'
+  };
+
+  export type ClientNotificationScalarFieldEnum = (typeof ClientNotificationScalarFieldEnum)[keyof typeof ClientNotificationScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -3403,6 +7205,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ShipmentStatus'
+   */
+  export type EnumShipmentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShipmentStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ShipmentStatus[]'
+   */
+  export type ListEnumShipmentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShipmentStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ShipmentEventType'
+   */
+  export type EnumShipmentEventTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShipmentEventType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ShipmentEventType[]'
+   */
+  export type ListEnumShipmentEventTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShipmentEventType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -3429,6 +7259,7 @@ export namespace Prisma {
     role?: EnumRoleFilter<"User"> | $Enums.Role
     createdAt?: DateTimeFilter<"User"> | Date | string
     agent?: AgentListRelationFilter
+    shipments?: ShipmentListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -3438,6 +7269,7 @@ export namespace Prisma {
     role?: SortOrder
     createdAt?: SortOrder
     agent?: AgentOrderByRelationAggregateInput
+    shipments?: ShipmentOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -3450,6 +7282,7 @@ export namespace Prisma {
     role?: EnumRoleFilter<"User"> | $Enums.Role
     createdAt?: DateTimeFilter<"User"> | Date | string
     agent?: AgentListRelationFilter
+    shipments?: ShipmentListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -3548,12 +7381,226 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Agent"> | Date | string
   }
 
+  export type ShipmentWhereInput = {
+    AND?: ShipmentWhereInput | ShipmentWhereInput[]
+    OR?: ShipmentWhereInput[]
+    NOT?: ShipmentWhereInput | ShipmentWhereInput[]
+    id?: StringFilter<"Shipment"> | string
+    reference?: StringFilter<"Shipment"> | string
+    origin?: StringFilter<"Shipment"> | string
+    destination?: StringFilter<"Shipment"> | string
+    company?: StringFilter<"Shipment"> | string
+    client?: StringFilter<"Shipment"> | string
+    status?: EnumShipmentStatusFilter<"Shipment"> | $Enums.ShipmentStatus
+    delivered?: BoolFilter<"Shipment"> | boolean
+    ownerId?: IntFilter<"Shipment"> | number
+    createdAt?: DateTimeFilter<"Shipment"> | Date | string
+    updatedAt?: DateTimeFilter<"Shipment"> | Date | string
+    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    events?: ShipmentEventListRelationFilter
+    notifications?: ClientNotificationListRelationFilter
+  }
+
+  export type ShipmentOrderByWithRelationInput = {
+    id?: SortOrder
+    reference?: SortOrder
+    origin?: SortOrder
+    destination?: SortOrder
+    company?: SortOrder
+    client?: SortOrder
+    status?: SortOrder
+    delivered?: SortOrder
+    ownerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    owner?: UserOrderByWithRelationInput
+    events?: ShipmentEventOrderByRelationAggregateInput
+    notifications?: ClientNotificationOrderByRelationAggregateInput
+  }
+
+  export type ShipmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    reference?: string
+    AND?: ShipmentWhereInput | ShipmentWhereInput[]
+    OR?: ShipmentWhereInput[]
+    NOT?: ShipmentWhereInput | ShipmentWhereInput[]
+    origin?: StringFilter<"Shipment"> | string
+    destination?: StringFilter<"Shipment"> | string
+    company?: StringFilter<"Shipment"> | string
+    client?: StringFilter<"Shipment"> | string
+    status?: EnumShipmentStatusFilter<"Shipment"> | $Enums.ShipmentStatus
+    delivered?: BoolFilter<"Shipment"> | boolean
+    ownerId?: IntFilter<"Shipment"> | number
+    createdAt?: DateTimeFilter<"Shipment"> | Date | string
+    updatedAt?: DateTimeFilter<"Shipment"> | Date | string
+    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    events?: ShipmentEventListRelationFilter
+    notifications?: ClientNotificationListRelationFilter
+  }, "id" | "reference">
+
+  export type ShipmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    reference?: SortOrder
+    origin?: SortOrder
+    destination?: SortOrder
+    company?: SortOrder
+    client?: SortOrder
+    status?: SortOrder
+    delivered?: SortOrder
+    ownerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ShipmentCountOrderByAggregateInput
+    _avg?: ShipmentAvgOrderByAggregateInput
+    _max?: ShipmentMaxOrderByAggregateInput
+    _min?: ShipmentMinOrderByAggregateInput
+    _sum?: ShipmentSumOrderByAggregateInput
+  }
+
+  export type ShipmentScalarWhereWithAggregatesInput = {
+    AND?: ShipmentScalarWhereWithAggregatesInput | ShipmentScalarWhereWithAggregatesInput[]
+    OR?: ShipmentScalarWhereWithAggregatesInput[]
+    NOT?: ShipmentScalarWhereWithAggregatesInput | ShipmentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Shipment"> | string
+    reference?: StringWithAggregatesFilter<"Shipment"> | string
+    origin?: StringWithAggregatesFilter<"Shipment"> | string
+    destination?: StringWithAggregatesFilter<"Shipment"> | string
+    company?: StringWithAggregatesFilter<"Shipment"> | string
+    client?: StringWithAggregatesFilter<"Shipment"> | string
+    status?: EnumShipmentStatusWithAggregatesFilter<"Shipment"> | $Enums.ShipmentStatus
+    delivered?: BoolWithAggregatesFilter<"Shipment"> | boolean
+    ownerId?: IntWithAggregatesFilter<"Shipment"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Shipment"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Shipment"> | Date | string
+  }
+
+  export type ShipmentEventWhereInput = {
+    AND?: ShipmentEventWhereInput | ShipmentEventWhereInput[]
+    OR?: ShipmentEventWhereInput[]
+    NOT?: ShipmentEventWhereInput | ShipmentEventWhereInput[]
+    id?: StringFilter<"ShipmentEvent"> | string
+    shipmentId?: StringFilter<"ShipmentEvent"> | string
+    type?: EnumShipmentEventTypeFilter<"ShipmentEvent"> | $Enums.ShipmentEventType
+    title?: StringFilter<"ShipmentEvent"> | string
+    detail?: StringFilter<"ShipmentEvent"> | string
+    createdAt?: DateTimeFilter<"ShipmentEvent"> | Date | string
+    shipment?: XOR<ShipmentScalarRelationFilter, ShipmentWhereInput>
+  }
+
+  export type ShipmentEventOrderByWithRelationInput = {
+    id?: SortOrder
+    shipmentId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    detail?: SortOrder
+    createdAt?: SortOrder
+    shipment?: ShipmentOrderByWithRelationInput
+  }
+
+  export type ShipmentEventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ShipmentEventWhereInput | ShipmentEventWhereInput[]
+    OR?: ShipmentEventWhereInput[]
+    NOT?: ShipmentEventWhereInput | ShipmentEventWhereInput[]
+    shipmentId?: StringFilter<"ShipmentEvent"> | string
+    type?: EnumShipmentEventTypeFilter<"ShipmentEvent"> | $Enums.ShipmentEventType
+    title?: StringFilter<"ShipmentEvent"> | string
+    detail?: StringFilter<"ShipmentEvent"> | string
+    createdAt?: DateTimeFilter<"ShipmentEvent"> | Date | string
+    shipment?: XOR<ShipmentScalarRelationFilter, ShipmentWhereInput>
+  }, "id">
+
+  export type ShipmentEventOrderByWithAggregationInput = {
+    id?: SortOrder
+    shipmentId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    detail?: SortOrder
+    createdAt?: SortOrder
+    _count?: ShipmentEventCountOrderByAggregateInput
+    _max?: ShipmentEventMaxOrderByAggregateInput
+    _min?: ShipmentEventMinOrderByAggregateInput
+  }
+
+  export type ShipmentEventScalarWhereWithAggregatesInput = {
+    AND?: ShipmentEventScalarWhereWithAggregatesInput | ShipmentEventScalarWhereWithAggregatesInput[]
+    OR?: ShipmentEventScalarWhereWithAggregatesInput[]
+    NOT?: ShipmentEventScalarWhereWithAggregatesInput | ShipmentEventScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ShipmentEvent"> | string
+    shipmentId?: StringWithAggregatesFilter<"ShipmentEvent"> | string
+    type?: EnumShipmentEventTypeWithAggregatesFilter<"ShipmentEvent"> | $Enums.ShipmentEventType
+    title?: StringWithAggregatesFilter<"ShipmentEvent"> | string
+    detail?: StringWithAggregatesFilter<"ShipmentEvent"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ShipmentEvent"> | Date | string
+  }
+
+  export type ClientNotificationWhereInput = {
+    AND?: ClientNotificationWhereInput | ClientNotificationWhereInput[]
+    OR?: ClientNotificationWhereInput[]
+    NOT?: ClientNotificationWhereInput | ClientNotificationWhereInput[]
+    id?: StringFilter<"ClientNotification"> | string
+    shipmentId?: StringFilter<"ClientNotification"> | string
+    client?: StringFilter<"ClientNotification"> | string
+    status?: EnumShipmentStatusFilter<"ClientNotification"> | $Enums.ShipmentStatus
+    message?: StringFilter<"ClientNotification"> | string
+    createdAt?: DateTimeFilter<"ClientNotification"> | Date | string
+    shipment?: XOR<ShipmentScalarRelationFilter, ShipmentWhereInput>
+  }
+
+  export type ClientNotificationOrderByWithRelationInput = {
+    id?: SortOrder
+    shipmentId?: SortOrder
+    client?: SortOrder
+    status?: SortOrder
+    message?: SortOrder
+    createdAt?: SortOrder
+    shipment?: ShipmentOrderByWithRelationInput
+  }
+
+  export type ClientNotificationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ClientNotificationWhereInput | ClientNotificationWhereInput[]
+    OR?: ClientNotificationWhereInput[]
+    NOT?: ClientNotificationWhereInput | ClientNotificationWhereInput[]
+    shipmentId?: StringFilter<"ClientNotification"> | string
+    client?: StringFilter<"ClientNotification"> | string
+    status?: EnumShipmentStatusFilter<"ClientNotification"> | $Enums.ShipmentStatus
+    message?: StringFilter<"ClientNotification"> | string
+    createdAt?: DateTimeFilter<"ClientNotification"> | Date | string
+    shipment?: XOR<ShipmentScalarRelationFilter, ShipmentWhereInput>
+  }, "id">
+
+  export type ClientNotificationOrderByWithAggregationInput = {
+    id?: SortOrder
+    shipmentId?: SortOrder
+    client?: SortOrder
+    status?: SortOrder
+    message?: SortOrder
+    createdAt?: SortOrder
+    _count?: ClientNotificationCountOrderByAggregateInput
+    _max?: ClientNotificationMaxOrderByAggregateInput
+    _min?: ClientNotificationMinOrderByAggregateInput
+  }
+
+  export type ClientNotificationScalarWhereWithAggregatesInput = {
+    AND?: ClientNotificationScalarWhereWithAggregatesInput | ClientNotificationScalarWhereWithAggregatesInput[]
+    OR?: ClientNotificationScalarWhereWithAggregatesInput[]
+    NOT?: ClientNotificationScalarWhereWithAggregatesInput | ClientNotificationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ClientNotification"> | string
+    shipmentId?: StringWithAggregatesFilter<"ClientNotification"> | string
+    client?: StringWithAggregatesFilter<"ClientNotification"> | string
+    status?: EnumShipmentStatusWithAggregatesFilter<"ClientNotification"> | $Enums.ShipmentStatus
+    message?: StringWithAggregatesFilter<"ClientNotification"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ClientNotification"> | Date | string
+  }
+
   export type UserCreateInput = {
     email: string
     password: string
     role?: $Enums.Role
     createdAt?: Date | string
     agent?: AgentCreateNestedManyWithoutUserInput
+    shipments?: ShipmentCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -3563,6 +7610,7 @@ export namespace Prisma {
     role?: $Enums.Role
     createdAt?: Date | string
     agent?: AgentUncheckedCreateNestedManyWithoutUserInput
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUpdateInput = {
@@ -3571,6 +7619,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     agent?: AgentUpdateManyWithoutUserNestedInput
+    shipments?: ShipmentUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -3580,6 +7629,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     agent?: AgentUncheckedUpdateManyWithoutUserNestedInput
+    shipments?: ShipmentUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -3678,6 +7728,235 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ShipmentCreateInput = {
+    id?: string
+    reference: string
+    origin: string
+    destination: string
+    company: string
+    client: string
+    status?: $Enums.ShipmentStatus
+    delivered?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutShipmentsInput
+    events?: ShipmentEventCreateNestedManyWithoutShipmentInput
+    notifications?: ClientNotificationCreateNestedManyWithoutShipmentInput
+  }
+
+  export type ShipmentUncheckedCreateInput = {
+    id?: string
+    reference: string
+    origin: string
+    destination: string
+    company: string
+    client: string
+    status?: $Enums.ShipmentStatus
+    delivered?: boolean
+    ownerId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    events?: ShipmentEventUncheckedCreateNestedManyWithoutShipmentInput
+    notifications?: ClientNotificationUncheckedCreateNestedManyWithoutShipmentInput
+  }
+
+  export type ShipmentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reference?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    company?: StringFieldUpdateOperationsInput | string
+    client?: StringFieldUpdateOperationsInput | string
+    status?: EnumShipmentStatusFieldUpdateOperationsInput | $Enums.ShipmentStatus
+    delivered?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutShipmentsNestedInput
+    events?: ShipmentEventUpdateManyWithoutShipmentNestedInput
+    notifications?: ClientNotificationUpdateManyWithoutShipmentNestedInput
+  }
+
+  export type ShipmentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reference?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    company?: StringFieldUpdateOperationsInput | string
+    client?: StringFieldUpdateOperationsInput | string
+    status?: EnumShipmentStatusFieldUpdateOperationsInput | $Enums.ShipmentStatus
+    delivered?: BoolFieldUpdateOperationsInput | boolean
+    ownerId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    events?: ShipmentEventUncheckedUpdateManyWithoutShipmentNestedInput
+    notifications?: ClientNotificationUncheckedUpdateManyWithoutShipmentNestedInput
+  }
+
+  export type ShipmentCreateManyInput = {
+    id?: string
+    reference: string
+    origin: string
+    destination: string
+    company: string
+    client: string
+    status?: $Enums.ShipmentStatus
+    delivered?: boolean
+    ownerId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ShipmentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reference?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    company?: StringFieldUpdateOperationsInput | string
+    client?: StringFieldUpdateOperationsInput | string
+    status?: EnumShipmentStatusFieldUpdateOperationsInput | $Enums.ShipmentStatus
+    delivered?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reference?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    company?: StringFieldUpdateOperationsInput | string
+    client?: StringFieldUpdateOperationsInput | string
+    status?: EnumShipmentStatusFieldUpdateOperationsInput | $Enums.ShipmentStatus
+    delivered?: BoolFieldUpdateOperationsInput | boolean
+    ownerId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentEventCreateInput = {
+    id?: string
+    type?: $Enums.ShipmentEventType
+    title: string
+    detail: string
+    createdAt?: Date | string
+    shipment: ShipmentCreateNestedOneWithoutEventsInput
+  }
+
+  export type ShipmentEventUncheckedCreateInput = {
+    id?: string
+    shipmentId: string
+    type?: $Enums.ShipmentEventType
+    title: string
+    detail: string
+    createdAt?: Date | string
+  }
+
+  export type ShipmentEventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumShipmentEventTypeFieldUpdateOperationsInput | $Enums.ShipmentEventType
+    title?: StringFieldUpdateOperationsInput | string
+    detail?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shipment?: ShipmentUpdateOneRequiredWithoutEventsNestedInput
+  }
+
+  export type ShipmentEventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shipmentId?: StringFieldUpdateOperationsInput | string
+    type?: EnumShipmentEventTypeFieldUpdateOperationsInput | $Enums.ShipmentEventType
+    title?: StringFieldUpdateOperationsInput | string
+    detail?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentEventCreateManyInput = {
+    id?: string
+    shipmentId: string
+    type?: $Enums.ShipmentEventType
+    title: string
+    detail: string
+    createdAt?: Date | string
+  }
+
+  export type ShipmentEventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumShipmentEventTypeFieldUpdateOperationsInput | $Enums.ShipmentEventType
+    title?: StringFieldUpdateOperationsInput | string
+    detail?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentEventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shipmentId?: StringFieldUpdateOperationsInput | string
+    type?: EnumShipmentEventTypeFieldUpdateOperationsInput | $Enums.ShipmentEventType
+    title?: StringFieldUpdateOperationsInput | string
+    detail?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientNotificationCreateInput = {
+    id?: string
+    client: string
+    status: $Enums.ShipmentStatus
+    message: string
+    createdAt?: Date | string
+    shipment: ShipmentCreateNestedOneWithoutNotificationsInput
+  }
+
+  export type ClientNotificationUncheckedCreateInput = {
+    id?: string
+    shipmentId: string
+    client: string
+    status: $Enums.ShipmentStatus
+    message: string
+    createdAt?: Date | string
+  }
+
+  export type ClientNotificationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    client?: StringFieldUpdateOperationsInput | string
+    status?: EnumShipmentStatusFieldUpdateOperationsInput | $Enums.ShipmentStatus
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shipment?: ShipmentUpdateOneRequiredWithoutNotificationsNestedInput
+  }
+
+  export type ClientNotificationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shipmentId?: StringFieldUpdateOperationsInput | string
+    client?: StringFieldUpdateOperationsInput | string
+    status?: EnumShipmentStatusFieldUpdateOperationsInput | $Enums.ShipmentStatus
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientNotificationCreateManyInput = {
+    id?: string
+    shipmentId: string
+    client: string
+    status: $Enums.ShipmentStatus
+    message: string
+    createdAt?: Date | string
+  }
+
+  export type ClientNotificationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    client?: StringFieldUpdateOperationsInput | string
+    status?: EnumShipmentStatusFieldUpdateOperationsInput | $Enums.ShipmentStatus
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientNotificationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shipmentId?: StringFieldUpdateOperationsInput | string
+    client?: StringFieldUpdateOperationsInput | string
+    status?: EnumShipmentStatusFieldUpdateOperationsInput | $Enums.ShipmentStatus
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -3728,7 +8007,17 @@ export namespace Prisma {
     none?: AgentWhereInput
   }
 
+  export type ShipmentListRelationFilter = {
+    every?: ShipmentWhereInput
+    some?: ShipmentWhereInput
+    none?: ShipmentWhereInput
+  }
+
   export type AgentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ShipmentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -3930,6 +8219,169 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type EnumShipmentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShipmentStatus | EnumShipmentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ShipmentStatus[] | ListEnumShipmentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShipmentStatus[] | ListEnumShipmentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumShipmentStatusFilter<$PrismaModel> | $Enums.ShipmentStatus
+  }
+
+  export type ShipmentEventListRelationFilter = {
+    every?: ShipmentEventWhereInput
+    some?: ShipmentEventWhereInput
+    none?: ShipmentEventWhereInput
+  }
+
+  export type ClientNotificationListRelationFilter = {
+    every?: ClientNotificationWhereInput
+    some?: ClientNotificationWhereInput
+    none?: ClientNotificationWhereInput
+  }
+
+  export type ShipmentEventOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ClientNotificationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ShipmentCountOrderByAggregateInput = {
+    id?: SortOrder
+    reference?: SortOrder
+    origin?: SortOrder
+    destination?: SortOrder
+    company?: SortOrder
+    client?: SortOrder
+    status?: SortOrder
+    delivered?: SortOrder
+    ownerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShipmentAvgOrderByAggregateInput = {
+    ownerId?: SortOrder
+  }
+
+  export type ShipmentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    reference?: SortOrder
+    origin?: SortOrder
+    destination?: SortOrder
+    company?: SortOrder
+    client?: SortOrder
+    status?: SortOrder
+    delivered?: SortOrder
+    ownerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShipmentMinOrderByAggregateInput = {
+    id?: SortOrder
+    reference?: SortOrder
+    origin?: SortOrder
+    destination?: SortOrder
+    company?: SortOrder
+    client?: SortOrder
+    status?: SortOrder
+    delivered?: SortOrder
+    ownerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ShipmentSumOrderByAggregateInput = {
+    ownerId?: SortOrder
+  }
+
+  export type EnumShipmentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShipmentStatus | EnumShipmentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ShipmentStatus[] | ListEnumShipmentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShipmentStatus[] | ListEnumShipmentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumShipmentStatusWithAggregatesFilter<$PrismaModel> | $Enums.ShipmentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumShipmentStatusFilter<$PrismaModel>
+    _max?: NestedEnumShipmentStatusFilter<$PrismaModel>
+  }
+
+  export type EnumShipmentEventTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShipmentEventType | EnumShipmentEventTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ShipmentEventType[] | ListEnumShipmentEventTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShipmentEventType[] | ListEnumShipmentEventTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumShipmentEventTypeFilter<$PrismaModel> | $Enums.ShipmentEventType
+  }
+
+  export type ShipmentScalarRelationFilter = {
+    is?: ShipmentWhereInput
+    isNot?: ShipmentWhereInput
+  }
+
+  export type ShipmentEventCountOrderByAggregateInput = {
+    id?: SortOrder
+    shipmentId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    detail?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ShipmentEventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    shipmentId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    detail?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ShipmentEventMinOrderByAggregateInput = {
+    id?: SortOrder
+    shipmentId?: SortOrder
+    type?: SortOrder
+    title?: SortOrder
+    detail?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumShipmentEventTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShipmentEventType | EnumShipmentEventTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ShipmentEventType[] | ListEnumShipmentEventTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShipmentEventType[] | ListEnumShipmentEventTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumShipmentEventTypeWithAggregatesFilter<$PrismaModel> | $Enums.ShipmentEventType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumShipmentEventTypeFilter<$PrismaModel>
+    _max?: NestedEnumShipmentEventTypeFilter<$PrismaModel>
+  }
+
+  export type ClientNotificationCountOrderByAggregateInput = {
+    id?: SortOrder
+    shipmentId?: SortOrder
+    client?: SortOrder
+    status?: SortOrder
+    message?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ClientNotificationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    shipmentId?: SortOrder
+    client?: SortOrder
+    status?: SortOrder
+    message?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ClientNotificationMinOrderByAggregateInput = {
+    id?: SortOrder
+    shipmentId?: SortOrder
+    client?: SortOrder
+    status?: SortOrder
+    message?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type AgentCreateNestedManyWithoutUserInput = {
     create?: XOR<AgentCreateWithoutUserInput, AgentUncheckedCreateWithoutUserInput> | AgentCreateWithoutUserInput[] | AgentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AgentCreateOrConnectWithoutUserInput | AgentCreateOrConnectWithoutUserInput[]
@@ -3937,11 +8389,25 @@ export namespace Prisma {
     connect?: AgentWhereUniqueInput | AgentWhereUniqueInput[]
   }
 
+  export type ShipmentCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<ShipmentCreateWithoutOwnerInput, ShipmentUncheckedCreateWithoutOwnerInput> | ShipmentCreateWithoutOwnerInput[] | ShipmentUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: ShipmentCreateOrConnectWithoutOwnerInput | ShipmentCreateOrConnectWithoutOwnerInput[]
+    createMany?: ShipmentCreateManyOwnerInputEnvelope
+    connect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+  }
+
   export type AgentUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AgentCreateWithoutUserInput, AgentUncheckedCreateWithoutUserInput> | AgentCreateWithoutUserInput[] | AgentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AgentCreateOrConnectWithoutUserInput | AgentCreateOrConnectWithoutUserInput[]
     createMany?: AgentCreateManyUserInputEnvelope
     connect?: AgentWhereUniqueInput | AgentWhereUniqueInput[]
+  }
+
+  export type ShipmentUncheckedCreateNestedManyWithoutOwnerInput = {
+    create?: XOR<ShipmentCreateWithoutOwnerInput, ShipmentUncheckedCreateWithoutOwnerInput> | ShipmentCreateWithoutOwnerInput[] | ShipmentUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: ShipmentCreateOrConnectWithoutOwnerInput | ShipmentCreateOrConnectWithoutOwnerInput[]
+    createMany?: ShipmentCreateManyOwnerInputEnvelope
+    connect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -3970,6 +8436,20 @@ export namespace Prisma {
     deleteMany?: AgentScalarWhereInput | AgentScalarWhereInput[]
   }
 
+  export type ShipmentUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<ShipmentCreateWithoutOwnerInput, ShipmentUncheckedCreateWithoutOwnerInput> | ShipmentCreateWithoutOwnerInput[] | ShipmentUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: ShipmentCreateOrConnectWithoutOwnerInput | ShipmentCreateOrConnectWithoutOwnerInput[]
+    upsert?: ShipmentUpsertWithWhereUniqueWithoutOwnerInput | ShipmentUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: ShipmentCreateManyOwnerInputEnvelope
+    set?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    disconnect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    delete?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    connect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    update?: ShipmentUpdateWithWhereUniqueWithoutOwnerInput | ShipmentUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: ShipmentUpdateManyWithWhereWithoutOwnerInput | ShipmentUpdateManyWithWhereWithoutOwnerInput[]
+    deleteMany?: ShipmentScalarWhereInput | ShipmentScalarWhereInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -3992,6 +8472,20 @@ export namespace Prisma {
     deleteMany?: AgentScalarWhereInput | AgentScalarWhereInput[]
   }
 
+  export type ShipmentUncheckedUpdateManyWithoutOwnerNestedInput = {
+    create?: XOR<ShipmentCreateWithoutOwnerInput, ShipmentUncheckedCreateWithoutOwnerInput> | ShipmentCreateWithoutOwnerInput[] | ShipmentUncheckedCreateWithoutOwnerInput[]
+    connectOrCreate?: ShipmentCreateOrConnectWithoutOwnerInput | ShipmentCreateOrConnectWithoutOwnerInput[]
+    upsert?: ShipmentUpsertWithWhereUniqueWithoutOwnerInput | ShipmentUpsertWithWhereUniqueWithoutOwnerInput[]
+    createMany?: ShipmentCreateManyOwnerInputEnvelope
+    set?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    disconnect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    delete?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    connect?: ShipmentWhereUniqueInput | ShipmentWhereUniqueInput[]
+    update?: ShipmentUpdateWithWhereUniqueWithoutOwnerInput | ShipmentUpdateWithWhereUniqueWithoutOwnerInput[]
+    updateMany?: ShipmentUpdateManyWithWhereWithoutOwnerInput | ShipmentUpdateManyWithWhereWithoutOwnerInput[]
+    deleteMany?: ShipmentScalarWhereInput | ShipmentScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutAgentInput = {
     create?: XOR<UserCreateWithoutAgentInput, UserUncheckedCreateWithoutAgentInput>
     connectOrCreate?: UserCreateOrConnectWithoutAgentInput
@@ -4008,6 +8502,140 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutAgentInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAgentInput, UserUpdateWithoutAgentInput>, UserUncheckedUpdateWithoutAgentInput>
+  }
+
+  export type UserCreateNestedOneWithoutShipmentsInput = {
+    create?: XOR<UserCreateWithoutShipmentsInput, UserUncheckedCreateWithoutShipmentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutShipmentsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ShipmentEventCreateNestedManyWithoutShipmentInput = {
+    create?: XOR<ShipmentEventCreateWithoutShipmentInput, ShipmentEventUncheckedCreateWithoutShipmentInput> | ShipmentEventCreateWithoutShipmentInput[] | ShipmentEventUncheckedCreateWithoutShipmentInput[]
+    connectOrCreate?: ShipmentEventCreateOrConnectWithoutShipmentInput | ShipmentEventCreateOrConnectWithoutShipmentInput[]
+    createMany?: ShipmentEventCreateManyShipmentInputEnvelope
+    connect?: ShipmentEventWhereUniqueInput | ShipmentEventWhereUniqueInput[]
+  }
+
+  export type ClientNotificationCreateNestedManyWithoutShipmentInput = {
+    create?: XOR<ClientNotificationCreateWithoutShipmentInput, ClientNotificationUncheckedCreateWithoutShipmentInput> | ClientNotificationCreateWithoutShipmentInput[] | ClientNotificationUncheckedCreateWithoutShipmentInput[]
+    connectOrCreate?: ClientNotificationCreateOrConnectWithoutShipmentInput | ClientNotificationCreateOrConnectWithoutShipmentInput[]
+    createMany?: ClientNotificationCreateManyShipmentInputEnvelope
+    connect?: ClientNotificationWhereUniqueInput | ClientNotificationWhereUniqueInput[]
+  }
+
+  export type ShipmentEventUncheckedCreateNestedManyWithoutShipmentInput = {
+    create?: XOR<ShipmentEventCreateWithoutShipmentInput, ShipmentEventUncheckedCreateWithoutShipmentInput> | ShipmentEventCreateWithoutShipmentInput[] | ShipmentEventUncheckedCreateWithoutShipmentInput[]
+    connectOrCreate?: ShipmentEventCreateOrConnectWithoutShipmentInput | ShipmentEventCreateOrConnectWithoutShipmentInput[]
+    createMany?: ShipmentEventCreateManyShipmentInputEnvelope
+    connect?: ShipmentEventWhereUniqueInput | ShipmentEventWhereUniqueInput[]
+  }
+
+  export type ClientNotificationUncheckedCreateNestedManyWithoutShipmentInput = {
+    create?: XOR<ClientNotificationCreateWithoutShipmentInput, ClientNotificationUncheckedCreateWithoutShipmentInput> | ClientNotificationCreateWithoutShipmentInput[] | ClientNotificationUncheckedCreateWithoutShipmentInput[]
+    connectOrCreate?: ClientNotificationCreateOrConnectWithoutShipmentInput | ClientNotificationCreateOrConnectWithoutShipmentInput[]
+    createMany?: ClientNotificationCreateManyShipmentInputEnvelope
+    connect?: ClientNotificationWhereUniqueInput | ClientNotificationWhereUniqueInput[]
+  }
+
+  export type EnumShipmentStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ShipmentStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutShipmentsNestedInput = {
+    create?: XOR<UserCreateWithoutShipmentsInput, UserUncheckedCreateWithoutShipmentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutShipmentsInput
+    upsert?: UserUpsertWithoutShipmentsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutShipmentsInput, UserUpdateWithoutShipmentsInput>, UserUncheckedUpdateWithoutShipmentsInput>
+  }
+
+  export type ShipmentEventUpdateManyWithoutShipmentNestedInput = {
+    create?: XOR<ShipmentEventCreateWithoutShipmentInput, ShipmentEventUncheckedCreateWithoutShipmentInput> | ShipmentEventCreateWithoutShipmentInput[] | ShipmentEventUncheckedCreateWithoutShipmentInput[]
+    connectOrCreate?: ShipmentEventCreateOrConnectWithoutShipmentInput | ShipmentEventCreateOrConnectWithoutShipmentInput[]
+    upsert?: ShipmentEventUpsertWithWhereUniqueWithoutShipmentInput | ShipmentEventUpsertWithWhereUniqueWithoutShipmentInput[]
+    createMany?: ShipmentEventCreateManyShipmentInputEnvelope
+    set?: ShipmentEventWhereUniqueInput | ShipmentEventWhereUniqueInput[]
+    disconnect?: ShipmentEventWhereUniqueInput | ShipmentEventWhereUniqueInput[]
+    delete?: ShipmentEventWhereUniqueInput | ShipmentEventWhereUniqueInput[]
+    connect?: ShipmentEventWhereUniqueInput | ShipmentEventWhereUniqueInput[]
+    update?: ShipmentEventUpdateWithWhereUniqueWithoutShipmentInput | ShipmentEventUpdateWithWhereUniqueWithoutShipmentInput[]
+    updateMany?: ShipmentEventUpdateManyWithWhereWithoutShipmentInput | ShipmentEventUpdateManyWithWhereWithoutShipmentInput[]
+    deleteMany?: ShipmentEventScalarWhereInput | ShipmentEventScalarWhereInput[]
+  }
+
+  export type ClientNotificationUpdateManyWithoutShipmentNestedInput = {
+    create?: XOR<ClientNotificationCreateWithoutShipmentInput, ClientNotificationUncheckedCreateWithoutShipmentInput> | ClientNotificationCreateWithoutShipmentInput[] | ClientNotificationUncheckedCreateWithoutShipmentInput[]
+    connectOrCreate?: ClientNotificationCreateOrConnectWithoutShipmentInput | ClientNotificationCreateOrConnectWithoutShipmentInput[]
+    upsert?: ClientNotificationUpsertWithWhereUniqueWithoutShipmentInput | ClientNotificationUpsertWithWhereUniqueWithoutShipmentInput[]
+    createMany?: ClientNotificationCreateManyShipmentInputEnvelope
+    set?: ClientNotificationWhereUniqueInput | ClientNotificationWhereUniqueInput[]
+    disconnect?: ClientNotificationWhereUniqueInput | ClientNotificationWhereUniqueInput[]
+    delete?: ClientNotificationWhereUniqueInput | ClientNotificationWhereUniqueInput[]
+    connect?: ClientNotificationWhereUniqueInput | ClientNotificationWhereUniqueInput[]
+    update?: ClientNotificationUpdateWithWhereUniqueWithoutShipmentInput | ClientNotificationUpdateWithWhereUniqueWithoutShipmentInput[]
+    updateMany?: ClientNotificationUpdateManyWithWhereWithoutShipmentInput | ClientNotificationUpdateManyWithWhereWithoutShipmentInput[]
+    deleteMany?: ClientNotificationScalarWhereInput | ClientNotificationScalarWhereInput[]
+  }
+
+  export type ShipmentEventUncheckedUpdateManyWithoutShipmentNestedInput = {
+    create?: XOR<ShipmentEventCreateWithoutShipmentInput, ShipmentEventUncheckedCreateWithoutShipmentInput> | ShipmentEventCreateWithoutShipmentInput[] | ShipmentEventUncheckedCreateWithoutShipmentInput[]
+    connectOrCreate?: ShipmentEventCreateOrConnectWithoutShipmentInput | ShipmentEventCreateOrConnectWithoutShipmentInput[]
+    upsert?: ShipmentEventUpsertWithWhereUniqueWithoutShipmentInput | ShipmentEventUpsertWithWhereUniqueWithoutShipmentInput[]
+    createMany?: ShipmentEventCreateManyShipmentInputEnvelope
+    set?: ShipmentEventWhereUniqueInput | ShipmentEventWhereUniqueInput[]
+    disconnect?: ShipmentEventWhereUniqueInput | ShipmentEventWhereUniqueInput[]
+    delete?: ShipmentEventWhereUniqueInput | ShipmentEventWhereUniqueInput[]
+    connect?: ShipmentEventWhereUniqueInput | ShipmentEventWhereUniqueInput[]
+    update?: ShipmentEventUpdateWithWhereUniqueWithoutShipmentInput | ShipmentEventUpdateWithWhereUniqueWithoutShipmentInput[]
+    updateMany?: ShipmentEventUpdateManyWithWhereWithoutShipmentInput | ShipmentEventUpdateManyWithWhereWithoutShipmentInput[]
+    deleteMany?: ShipmentEventScalarWhereInput | ShipmentEventScalarWhereInput[]
+  }
+
+  export type ClientNotificationUncheckedUpdateManyWithoutShipmentNestedInput = {
+    create?: XOR<ClientNotificationCreateWithoutShipmentInput, ClientNotificationUncheckedCreateWithoutShipmentInput> | ClientNotificationCreateWithoutShipmentInput[] | ClientNotificationUncheckedCreateWithoutShipmentInput[]
+    connectOrCreate?: ClientNotificationCreateOrConnectWithoutShipmentInput | ClientNotificationCreateOrConnectWithoutShipmentInput[]
+    upsert?: ClientNotificationUpsertWithWhereUniqueWithoutShipmentInput | ClientNotificationUpsertWithWhereUniqueWithoutShipmentInput[]
+    createMany?: ClientNotificationCreateManyShipmentInputEnvelope
+    set?: ClientNotificationWhereUniqueInput | ClientNotificationWhereUniqueInput[]
+    disconnect?: ClientNotificationWhereUniqueInput | ClientNotificationWhereUniqueInput[]
+    delete?: ClientNotificationWhereUniqueInput | ClientNotificationWhereUniqueInput[]
+    connect?: ClientNotificationWhereUniqueInput | ClientNotificationWhereUniqueInput[]
+    update?: ClientNotificationUpdateWithWhereUniqueWithoutShipmentInput | ClientNotificationUpdateWithWhereUniqueWithoutShipmentInput[]
+    updateMany?: ClientNotificationUpdateManyWithWhereWithoutShipmentInput | ClientNotificationUpdateManyWithWhereWithoutShipmentInput[]
+    deleteMany?: ClientNotificationScalarWhereInput | ClientNotificationScalarWhereInput[]
+  }
+
+  export type ShipmentCreateNestedOneWithoutEventsInput = {
+    create?: XOR<ShipmentCreateWithoutEventsInput, ShipmentUncheckedCreateWithoutEventsInput>
+    connectOrCreate?: ShipmentCreateOrConnectWithoutEventsInput
+    connect?: ShipmentWhereUniqueInput
+  }
+
+  export type EnumShipmentEventTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ShipmentEventType
+  }
+
+  export type ShipmentUpdateOneRequiredWithoutEventsNestedInput = {
+    create?: XOR<ShipmentCreateWithoutEventsInput, ShipmentUncheckedCreateWithoutEventsInput>
+    connectOrCreate?: ShipmentCreateOrConnectWithoutEventsInput
+    upsert?: ShipmentUpsertWithoutEventsInput
+    connect?: ShipmentWhereUniqueInput
+    update?: XOR<XOR<ShipmentUpdateToOneWithWhereWithoutEventsInput, ShipmentUpdateWithoutEventsInput>, ShipmentUncheckedUpdateWithoutEventsInput>
+  }
+
+  export type ShipmentCreateNestedOneWithoutNotificationsInput = {
+    create?: XOR<ShipmentCreateWithoutNotificationsInput, ShipmentUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: ShipmentCreateOrConnectWithoutNotificationsInput
+    connect?: ShipmentWhereUniqueInput
+  }
+
+  export type ShipmentUpdateOneRequiredWithoutNotificationsNestedInput = {
+    create?: XOR<ShipmentCreateWithoutNotificationsInput, ShipmentUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: ShipmentCreateOrConnectWithoutNotificationsInput
+    upsert?: ShipmentUpsertWithoutNotificationsInput
+    connect?: ShipmentWhereUniqueInput
+    update?: XOR<XOR<ShipmentUpdateToOneWithWhereWithoutNotificationsInput, ShipmentUpdateWithoutNotificationsInput>, ShipmentUncheckedUpdateWithoutNotificationsInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -4157,6 +8785,40 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedEnumShipmentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShipmentStatus | EnumShipmentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ShipmentStatus[] | ListEnumShipmentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShipmentStatus[] | ListEnumShipmentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumShipmentStatusFilter<$PrismaModel> | $Enums.ShipmentStatus
+  }
+
+  export type NestedEnumShipmentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShipmentStatus | EnumShipmentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ShipmentStatus[] | ListEnumShipmentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShipmentStatus[] | ListEnumShipmentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumShipmentStatusWithAggregatesFilter<$PrismaModel> | $Enums.ShipmentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumShipmentStatusFilter<$PrismaModel>
+    _max?: NestedEnumShipmentStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumShipmentEventTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShipmentEventType | EnumShipmentEventTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ShipmentEventType[] | ListEnumShipmentEventTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShipmentEventType[] | ListEnumShipmentEventTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumShipmentEventTypeFilter<$PrismaModel> | $Enums.ShipmentEventType
+  }
+
+  export type NestedEnumShipmentEventTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShipmentEventType | EnumShipmentEventTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ShipmentEventType[] | ListEnumShipmentEventTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShipmentEventType[] | ListEnumShipmentEventTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumShipmentEventTypeWithAggregatesFilter<$PrismaModel> | $Enums.ShipmentEventType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumShipmentEventTypeFilter<$PrismaModel>
+    _max?: NestedEnumShipmentEventTypeFilter<$PrismaModel>
+  }
+
   export type AgentCreateWithoutUserInput = {
     name: string
     description: string
@@ -4183,6 +8845,46 @@ export namespace Prisma {
 
   export type AgentCreateManyUserInputEnvelope = {
     data: AgentCreateManyUserInput | AgentCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ShipmentCreateWithoutOwnerInput = {
+    id?: string
+    reference: string
+    origin: string
+    destination: string
+    company: string
+    client: string
+    status?: $Enums.ShipmentStatus
+    delivered?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    events?: ShipmentEventCreateNestedManyWithoutShipmentInput
+    notifications?: ClientNotificationCreateNestedManyWithoutShipmentInput
+  }
+
+  export type ShipmentUncheckedCreateWithoutOwnerInput = {
+    id?: string
+    reference: string
+    origin: string
+    destination: string
+    company: string
+    client: string
+    status?: $Enums.ShipmentStatus
+    delivered?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    events?: ShipmentEventUncheckedCreateNestedManyWithoutShipmentInput
+    notifications?: ClientNotificationUncheckedCreateNestedManyWithoutShipmentInput
+  }
+
+  export type ShipmentCreateOrConnectWithoutOwnerInput = {
+    where: ShipmentWhereUniqueInput
+    create: XOR<ShipmentCreateWithoutOwnerInput, ShipmentUncheckedCreateWithoutOwnerInput>
+  }
+
+  export type ShipmentCreateManyOwnerInputEnvelope = {
+    data: ShipmentCreateManyOwnerInput | ShipmentCreateManyOwnerInput[]
     skipDuplicates?: boolean
   }
 
@@ -4216,11 +8918,45 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Agent"> | Date | string
   }
 
+  export type ShipmentUpsertWithWhereUniqueWithoutOwnerInput = {
+    where: ShipmentWhereUniqueInput
+    update: XOR<ShipmentUpdateWithoutOwnerInput, ShipmentUncheckedUpdateWithoutOwnerInput>
+    create: XOR<ShipmentCreateWithoutOwnerInput, ShipmentUncheckedCreateWithoutOwnerInput>
+  }
+
+  export type ShipmentUpdateWithWhereUniqueWithoutOwnerInput = {
+    where: ShipmentWhereUniqueInput
+    data: XOR<ShipmentUpdateWithoutOwnerInput, ShipmentUncheckedUpdateWithoutOwnerInput>
+  }
+
+  export type ShipmentUpdateManyWithWhereWithoutOwnerInput = {
+    where: ShipmentScalarWhereInput
+    data: XOR<ShipmentUpdateManyMutationInput, ShipmentUncheckedUpdateManyWithoutOwnerInput>
+  }
+
+  export type ShipmentScalarWhereInput = {
+    AND?: ShipmentScalarWhereInput | ShipmentScalarWhereInput[]
+    OR?: ShipmentScalarWhereInput[]
+    NOT?: ShipmentScalarWhereInput | ShipmentScalarWhereInput[]
+    id?: StringFilter<"Shipment"> | string
+    reference?: StringFilter<"Shipment"> | string
+    origin?: StringFilter<"Shipment"> | string
+    destination?: StringFilter<"Shipment"> | string
+    company?: StringFilter<"Shipment"> | string
+    client?: StringFilter<"Shipment"> | string
+    status?: EnumShipmentStatusFilter<"Shipment"> | $Enums.ShipmentStatus
+    delivered?: BoolFilter<"Shipment"> | boolean
+    ownerId?: IntFilter<"Shipment"> | number
+    createdAt?: DateTimeFilter<"Shipment"> | Date | string
+    updatedAt?: DateTimeFilter<"Shipment"> | Date | string
+  }
+
   export type UserCreateWithoutAgentInput = {
     email: string
     password: string
     role?: $Enums.Role
     createdAt?: Date | string
+    shipments?: ShipmentCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutAgentInput = {
@@ -4229,6 +8965,7 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     createdAt?: Date | string
+    shipments?: ShipmentUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutAgentInput = {
@@ -4252,6 +8989,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shipments?: ShipmentUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAgentInput = {
@@ -4260,6 +8998,317 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shipments?: ShipmentUncheckedUpdateManyWithoutOwnerNestedInput
+  }
+
+  export type UserCreateWithoutShipmentsInput = {
+    email: string
+    password: string
+    role?: $Enums.Role
+    createdAt?: Date | string
+    agent?: AgentCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutShipmentsInput = {
+    id?: number
+    email: string
+    password: string
+    role?: $Enums.Role
+    createdAt?: Date | string
+    agent?: AgentUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutShipmentsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutShipmentsInput, UserUncheckedCreateWithoutShipmentsInput>
+  }
+
+  export type ShipmentEventCreateWithoutShipmentInput = {
+    id?: string
+    type?: $Enums.ShipmentEventType
+    title: string
+    detail: string
+    createdAt?: Date | string
+  }
+
+  export type ShipmentEventUncheckedCreateWithoutShipmentInput = {
+    id?: string
+    type?: $Enums.ShipmentEventType
+    title: string
+    detail: string
+    createdAt?: Date | string
+  }
+
+  export type ShipmentEventCreateOrConnectWithoutShipmentInput = {
+    where: ShipmentEventWhereUniqueInput
+    create: XOR<ShipmentEventCreateWithoutShipmentInput, ShipmentEventUncheckedCreateWithoutShipmentInput>
+  }
+
+  export type ShipmentEventCreateManyShipmentInputEnvelope = {
+    data: ShipmentEventCreateManyShipmentInput | ShipmentEventCreateManyShipmentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ClientNotificationCreateWithoutShipmentInput = {
+    id?: string
+    client: string
+    status: $Enums.ShipmentStatus
+    message: string
+    createdAt?: Date | string
+  }
+
+  export type ClientNotificationUncheckedCreateWithoutShipmentInput = {
+    id?: string
+    client: string
+    status: $Enums.ShipmentStatus
+    message: string
+    createdAt?: Date | string
+  }
+
+  export type ClientNotificationCreateOrConnectWithoutShipmentInput = {
+    where: ClientNotificationWhereUniqueInput
+    create: XOR<ClientNotificationCreateWithoutShipmentInput, ClientNotificationUncheckedCreateWithoutShipmentInput>
+  }
+
+  export type ClientNotificationCreateManyShipmentInputEnvelope = {
+    data: ClientNotificationCreateManyShipmentInput | ClientNotificationCreateManyShipmentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutShipmentsInput = {
+    update: XOR<UserUpdateWithoutShipmentsInput, UserUncheckedUpdateWithoutShipmentsInput>
+    create: XOR<UserCreateWithoutShipmentsInput, UserUncheckedCreateWithoutShipmentsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutShipmentsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutShipmentsInput, UserUncheckedUpdateWithoutShipmentsInput>
+  }
+
+  export type UserUpdateWithoutShipmentsInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agent?: AgentUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutShipmentsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    agent?: AgentUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type ShipmentEventUpsertWithWhereUniqueWithoutShipmentInput = {
+    where: ShipmentEventWhereUniqueInput
+    update: XOR<ShipmentEventUpdateWithoutShipmentInput, ShipmentEventUncheckedUpdateWithoutShipmentInput>
+    create: XOR<ShipmentEventCreateWithoutShipmentInput, ShipmentEventUncheckedCreateWithoutShipmentInput>
+  }
+
+  export type ShipmentEventUpdateWithWhereUniqueWithoutShipmentInput = {
+    where: ShipmentEventWhereUniqueInput
+    data: XOR<ShipmentEventUpdateWithoutShipmentInput, ShipmentEventUncheckedUpdateWithoutShipmentInput>
+  }
+
+  export type ShipmentEventUpdateManyWithWhereWithoutShipmentInput = {
+    where: ShipmentEventScalarWhereInput
+    data: XOR<ShipmentEventUpdateManyMutationInput, ShipmentEventUncheckedUpdateManyWithoutShipmentInput>
+  }
+
+  export type ShipmentEventScalarWhereInput = {
+    AND?: ShipmentEventScalarWhereInput | ShipmentEventScalarWhereInput[]
+    OR?: ShipmentEventScalarWhereInput[]
+    NOT?: ShipmentEventScalarWhereInput | ShipmentEventScalarWhereInput[]
+    id?: StringFilter<"ShipmentEvent"> | string
+    shipmentId?: StringFilter<"ShipmentEvent"> | string
+    type?: EnumShipmentEventTypeFilter<"ShipmentEvent"> | $Enums.ShipmentEventType
+    title?: StringFilter<"ShipmentEvent"> | string
+    detail?: StringFilter<"ShipmentEvent"> | string
+    createdAt?: DateTimeFilter<"ShipmentEvent"> | Date | string
+  }
+
+  export type ClientNotificationUpsertWithWhereUniqueWithoutShipmentInput = {
+    where: ClientNotificationWhereUniqueInput
+    update: XOR<ClientNotificationUpdateWithoutShipmentInput, ClientNotificationUncheckedUpdateWithoutShipmentInput>
+    create: XOR<ClientNotificationCreateWithoutShipmentInput, ClientNotificationUncheckedCreateWithoutShipmentInput>
+  }
+
+  export type ClientNotificationUpdateWithWhereUniqueWithoutShipmentInput = {
+    where: ClientNotificationWhereUniqueInput
+    data: XOR<ClientNotificationUpdateWithoutShipmentInput, ClientNotificationUncheckedUpdateWithoutShipmentInput>
+  }
+
+  export type ClientNotificationUpdateManyWithWhereWithoutShipmentInput = {
+    where: ClientNotificationScalarWhereInput
+    data: XOR<ClientNotificationUpdateManyMutationInput, ClientNotificationUncheckedUpdateManyWithoutShipmentInput>
+  }
+
+  export type ClientNotificationScalarWhereInput = {
+    AND?: ClientNotificationScalarWhereInput | ClientNotificationScalarWhereInput[]
+    OR?: ClientNotificationScalarWhereInput[]
+    NOT?: ClientNotificationScalarWhereInput | ClientNotificationScalarWhereInput[]
+    id?: StringFilter<"ClientNotification"> | string
+    shipmentId?: StringFilter<"ClientNotification"> | string
+    client?: StringFilter<"ClientNotification"> | string
+    status?: EnumShipmentStatusFilter<"ClientNotification"> | $Enums.ShipmentStatus
+    message?: StringFilter<"ClientNotification"> | string
+    createdAt?: DateTimeFilter<"ClientNotification"> | Date | string
+  }
+
+  export type ShipmentCreateWithoutEventsInput = {
+    id?: string
+    reference: string
+    origin: string
+    destination: string
+    company: string
+    client: string
+    status?: $Enums.ShipmentStatus
+    delivered?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutShipmentsInput
+    notifications?: ClientNotificationCreateNestedManyWithoutShipmentInput
+  }
+
+  export type ShipmentUncheckedCreateWithoutEventsInput = {
+    id?: string
+    reference: string
+    origin: string
+    destination: string
+    company: string
+    client: string
+    status?: $Enums.ShipmentStatus
+    delivered?: boolean
+    ownerId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notifications?: ClientNotificationUncheckedCreateNestedManyWithoutShipmentInput
+  }
+
+  export type ShipmentCreateOrConnectWithoutEventsInput = {
+    where: ShipmentWhereUniqueInput
+    create: XOR<ShipmentCreateWithoutEventsInput, ShipmentUncheckedCreateWithoutEventsInput>
+  }
+
+  export type ShipmentUpsertWithoutEventsInput = {
+    update: XOR<ShipmentUpdateWithoutEventsInput, ShipmentUncheckedUpdateWithoutEventsInput>
+    create: XOR<ShipmentCreateWithoutEventsInput, ShipmentUncheckedCreateWithoutEventsInput>
+    where?: ShipmentWhereInput
+  }
+
+  export type ShipmentUpdateToOneWithWhereWithoutEventsInput = {
+    where?: ShipmentWhereInput
+    data: XOR<ShipmentUpdateWithoutEventsInput, ShipmentUncheckedUpdateWithoutEventsInput>
+  }
+
+  export type ShipmentUpdateWithoutEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reference?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    company?: StringFieldUpdateOperationsInput | string
+    client?: StringFieldUpdateOperationsInput | string
+    status?: EnumShipmentStatusFieldUpdateOperationsInput | $Enums.ShipmentStatus
+    delivered?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutShipmentsNestedInput
+    notifications?: ClientNotificationUpdateManyWithoutShipmentNestedInput
+  }
+
+  export type ShipmentUncheckedUpdateWithoutEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reference?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    company?: StringFieldUpdateOperationsInput | string
+    client?: StringFieldUpdateOperationsInput | string
+    status?: EnumShipmentStatusFieldUpdateOperationsInput | $Enums.ShipmentStatus
+    delivered?: BoolFieldUpdateOperationsInput | boolean
+    ownerId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notifications?: ClientNotificationUncheckedUpdateManyWithoutShipmentNestedInput
+  }
+
+  export type ShipmentCreateWithoutNotificationsInput = {
+    id?: string
+    reference: string
+    origin: string
+    destination: string
+    company: string
+    client: string
+    status?: $Enums.ShipmentStatus
+    delivered?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutShipmentsInput
+    events?: ShipmentEventCreateNestedManyWithoutShipmentInput
+  }
+
+  export type ShipmentUncheckedCreateWithoutNotificationsInput = {
+    id?: string
+    reference: string
+    origin: string
+    destination: string
+    company: string
+    client: string
+    status?: $Enums.ShipmentStatus
+    delivered?: boolean
+    ownerId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    events?: ShipmentEventUncheckedCreateNestedManyWithoutShipmentInput
+  }
+
+  export type ShipmentCreateOrConnectWithoutNotificationsInput = {
+    where: ShipmentWhereUniqueInput
+    create: XOR<ShipmentCreateWithoutNotificationsInput, ShipmentUncheckedCreateWithoutNotificationsInput>
+  }
+
+  export type ShipmentUpsertWithoutNotificationsInput = {
+    update: XOR<ShipmentUpdateWithoutNotificationsInput, ShipmentUncheckedUpdateWithoutNotificationsInput>
+    create: XOR<ShipmentCreateWithoutNotificationsInput, ShipmentUncheckedCreateWithoutNotificationsInput>
+    where?: ShipmentWhereInput
+  }
+
+  export type ShipmentUpdateToOneWithWhereWithoutNotificationsInput = {
+    where?: ShipmentWhereInput
+    data: XOR<ShipmentUpdateWithoutNotificationsInput, ShipmentUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type ShipmentUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reference?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    company?: StringFieldUpdateOperationsInput | string
+    client?: StringFieldUpdateOperationsInput | string
+    status?: EnumShipmentStatusFieldUpdateOperationsInput | $Enums.ShipmentStatus
+    delivered?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutShipmentsNestedInput
+    events?: ShipmentEventUpdateManyWithoutShipmentNestedInput
+  }
+
+  export type ShipmentUncheckedUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reference?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    company?: StringFieldUpdateOperationsInput | string
+    client?: StringFieldUpdateOperationsInput | string
+    status?: EnumShipmentStatusFieldUpdateOperationsInput | $Enums.ShipmentStatus
+    delivered?: BoolFieldUpdateOperationsInput | boolean
+    ownerId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    events?: ShipmentEventUncheckedUpdateManyWithoutShipmentNestedInput
   }
 
   export type AgentCreateManyUserInput = {
@@ -4270,6 +9319,19 @@ export namespace Prisma {
     config: JsonNullValueInput | InputJsonValue
     isPublic?: boolean
     createdAt?: Date | string
+  }
+
+  export type ShipmentCreateManyOwnerInput = {
+    id?: string
+    reference: string
+    origin: string
+    destination: string
+    company: string
+    client: string
+    status?: $Enums.ShipmentStatus
+    delivered?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AgentUpdateWithoutUserInput = {
@@ -4298,6 +9360,113 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     config?: JsonNullValueInput | InputJsonValue
     isPublic?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentUpdateWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reference?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    company?: StringFieldUpdateOperationsInput | string
+    client?: StringFieldUpdateOperationsInput | string
+    status?: EnumShipmentStatusFieldUpdateOperationsInput | $Enums.ShipmentStatus
+    delivered?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    events?: ShipmentEventUpdateManyWithoutShipmentNestedInput
+    notifications?: ClientNotificationUpdateManyWithoutShipmentNestedInput
+  }
+
+  export type ShipmentUncheckedUpdateWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reference?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    company?: StringFieldUpdateOperationsInput | string
+    client?: StringFieldUpdateOperationsInput | string
+    status?: EnumShipmentStatusFieldUpdateOperationsInput | $Enums.ShipmentStatus
+    delivered?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    events?: ShipmentEventUncheckedUpdateManyWithoutShipmentNestedInput
+    notifications?: ClientNotificationUncheckedUpdateManyWithoutShipmentNestedInput
+  }
+
+  export type ShipmentUncheckedUpdateManyWithoutOwnerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    reference?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    company?: StringFieldUpdateOperationsInput | string
+    client?: StringFieldUpdateOperationsInput | string
+    status?: EnumShipmentStatusFieldUpdateOperationsInput | $Enums.ShipmentStatus
+    delivered?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentEventCreateManyShipmentInput = {
+    id?: string
+    type?: $Enums.ShipmentEventType
+    title: string
+    detail: string
+    createdAt?: Date | string
+  }
+
+  export type ClientNotificationCreateManyShipmentInput = {
+    id?: string
+    client: string
+    status: $Enums.ShipmentStatus
+    message: string
+    createdAt?: Date | string
+  }
+
+  export type ShipmentEventUpdateWithoutShipmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumShipmentEventTypeFieldUpdateOperationsInput | $Enums.ShipmentEventType
+    title?: StringFieldUpdateOperationsInput | string
+    detail?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentEventUncheckedUpdateWithoutShipmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumShipmentEventTypeFieldUpdateOperationsInput | $Enums.ShipmentEventType
+    title?: StringFieldUpdateOperationsInput | string
+    detail?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShipmentEventUncheckedUpdateManyWithoutShipmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: EnumShipmentEventTypeFieldUpdateOperationsInput | $Enums.ShipmentEventType
+    title?: StringFieldUpdateOperationsInput | string
+    detail?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientNotificationUpdateWithoutShipmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    client?: StringFieldUpdateOperationsInput | string
+    status?: EnumShipmentStatusFieldUpdateOperationsInput | $Enums.ShipmentStatus
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientNotificationUncheckedUpdateWithoutShipmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    client?: StringFieldUpdateOperationsInput | string
+    status?: EnumShipmentStatusFieldUpdateOperationsInput | $Enums.ShipmentStatus
+    message?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClientNotificationUncheckedUpdateManyWithoutShipmentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    client?: StringFieldUpdateOperationsInput | string
+    status?: EnumShipmentStatusFieldUpdateOperationsInput | $Enums.ShipmentStatus
+    message?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

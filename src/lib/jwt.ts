@@ -8,7 +8,7 @@ interface JWTPayload {
     id: number;
     email: string;
     role: 'ADMIN' | 'USER';
-    [key: string]: any;
+    [key: string]: unknown;
 }
 
 export async function generateAccessToken(payload: JWTPayload) {
@@ -29,7 +29,7 @@ export async function validateAccessToken(token: string) {
     try {
         const { payload } = await jwtVerify(token, accessToken);
         return payload as unknown as JWTPayload;
-    } catch (error) {
+    } catch {
         return null;
     }
 }
@@ -38,7 +38,7 @@ export async function validateRefreshToken(token: string) {
     try {
         const { payload } = await jwtVerify(token, refreshToken);
         return payload as unknown as JWTPayload;
-    } catch (error) {
+    } catch {
         return null;
     }
 }
