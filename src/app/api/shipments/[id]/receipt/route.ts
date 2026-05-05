@@ -24,9 +24,9 @@ export async function GET(
 
     const pdfBytes = await buildShipmentReceiptPdf(shipment);
     
-    const pdfBlob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
+    const pdfBytes = await buildShipmentReceiptPdf(shipment);
     
-    return new Response(pdfBlob, {
+    return new Response(Buffer.from(pdfBytes), {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
