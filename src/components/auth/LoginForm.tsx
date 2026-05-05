@@ -128,4 +128,18 @@ function LoginFormInner() {
             </AppButton>
             <p className="text-center text-sm text-[color:var(--muted)]">
                 Need access?{" "}
-                <Link className="font-medium text-[color
+                <Link className="font-medium text-[color:var(--foreground)] hover:text-[var(--accent-strong)]" href="/register">
+                    Request an account
+                </Link>
+            </p>
+        </form>
+    );
+}
+
+export default function LoginForm() {
+    return (
+        <Suspense>
+            <LoginFormInner />
+        </Suspense>
+    );
+}
