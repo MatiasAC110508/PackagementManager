@@ -23,8 +23,7 @@ export async function GET(
     }
 
     const pdfBytes = await buildShipmentReceiptPdf(shipment);
-    
-    const pdfBytes = await buildShipmentReceiptPdf(shipment);
+    const pdfBlob = new Blob([pdfBytes.buffer as ArrayBuffer], { type: "application/pdf" });
     
     return new Response(Buffer.from(pdfBytes), {
       status: 200,
