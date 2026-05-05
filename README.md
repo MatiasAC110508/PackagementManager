@@ -287,3 +287,5 @@ The Prisma schema defines:
 - The receipt is now a real downloadable PDF file, not only a browser print preview.
 - The project is organized so auth, API, business rules, repository logic, and UI are separated into clear layers.
 # PackagementManager
+
+Developed by: Matias Aguirre Correa
