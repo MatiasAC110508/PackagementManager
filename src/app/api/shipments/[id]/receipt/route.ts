@@ -23,13 +23,16 @@ export async function GET(
     }
 
     const pdfBytes = await buildShipmentReceiptPdf(shipment);
-
-    return new Response(pdfBytes, {
+    
+    const pdfBytes = await buildShipmentReceiptPdf(shipment);
+    
+    // Envolver en un Blob
+    const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
+    
+    return new Response(pdfBlob, {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="${shipment.reference.toLowerCase()}-receipt.pdf"`,
-        "Cache-Control": "no-store",
       },
     });
   } catch (error: unknown) {
