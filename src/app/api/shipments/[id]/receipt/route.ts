@@ -24,8 +24,6 @@ export async function GET(
 
     const pdfBytes = await buildShipmentReceiptPdf(shipment);
     
-    const pdfBytes = await buildShipmentReceiptPdf(shipment);
-    
     // Envolver en un Blob
     const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
     
