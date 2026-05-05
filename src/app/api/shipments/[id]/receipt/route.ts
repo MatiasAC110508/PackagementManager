@@ -12,8 +12,6 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // The receipt is protected with the same token-based flow as the rest of the
-    // shipment API so users can only download their own shipment documents.
     const userId = getUserIdFromRequest(request);
     const { id } = await params;
     const shipment = await shipmentRepository.findByIdForOwner(id, userId);
@@ -23,8 +21,7 @@ export async function GET(
     }
 
     const pdfBytes = await buildShipmentReceiptPdf(shipment);
-    const pdfBlob = new Blob([pdfBytes.buffer as ArrayBuffer], { type: "application/pdf" });
-    
+
     return new Response(Buffer.from(pdfBytes), {
       status: 200,
       headers: {
