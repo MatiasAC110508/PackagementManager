@@ -20,9 +20,9 @@ export async function GET(
       throw new Error("Shipment not found");
     }
 
-   const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
+    const pdfBytes = await buildShipmentReceiptPdf(shipment);
 
-   return new Response(Buffer.from(pdfBytes), {
+    return new Response(Buffer.from(pdfBytes), {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
